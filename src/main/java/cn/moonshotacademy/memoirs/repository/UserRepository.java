@@ -8,4 +8,5 @@ import cn.moonshotacademy.memoirs.entity.UserEntity;
 
 public interface UserRepository extends CrudRepository<UserEntity, Long> {
     boolean existsByUsername(String username);
+    Optional<UserEntity> findByUsername(String username);
 }

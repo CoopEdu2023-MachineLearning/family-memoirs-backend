@@ -6,14 +6,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ExceptionEnum {
-    MISSING_PARAMETERS(1001, "Missing parameters"),
-    ILLEGAL_PARAMETERS(1002, "Illegal parameters"),
-
-    USER_EXISTS(2001, "User exists"),
-    USER_NOT_FOUND(2002, "User not found"),
-    WRONG_PASSWORD(2003, "Wrong password"),
-    INVALID_INVITATION_CODE(2004, "Invalid invitation code")
-    ;
+    MISSING_PARAMETERS(1001, "Missing required parameters"),
+    USERNAME_ALREADY_EXISTS(1002, "Username already exists"),
+    INVALID_CREDENTIALS(1003, "Invalid username or password");
 
     private final int code;
     private final String message;

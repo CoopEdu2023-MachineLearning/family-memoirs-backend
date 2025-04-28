@@ -1,5 +1,6 @@
 package cn.moonshotacademy.memoirs.controller;
 
+import cn.moonshotacademy.memoirs.dto.LoginDto;
 import cn.moonshotacademy.memoirs.dto.SignUpDto;
 import cn.moonshotacademy.memoirs.exception.BusinessException;
 import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
@@ -21,5 +22,11 @@ public class UserController {
     public ResponseDto<Void> signup(@RequestBody SignUpDto signUpDto) {
         userService.signup(signUpDto);
         return ResponseDto.success();
+    }
+    
+    @PostMapping("/login")
+    public ResponseDto<String> login(@RequestBody LoginDto loginDto) {
+        String token = userService.login(loginDto);
+        return ResponseDto.success(token);
     }
 }
