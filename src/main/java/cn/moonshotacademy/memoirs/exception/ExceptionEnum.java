@@ -6,12 +6,16 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ExceptionEnum {
+
     MISSING_PARAMETERS(1001, "Missing parameters"),
     ILLEGAL_PARAMETERS(1002, "Illegal parameters"),
 
     USER_EXISTS(2001, "User exists"),
     USER_NOT_FOUND(2002, "User not found"),
     WRONG_PASSWORD(2003, "Wrong password"),
+
+    EMAIL_NOT_FOUND(3001, "Email not found"),
+    EMAIL_REQEUST_FAILED(3002, "Email request failed"),
     ;
 
     private final int code;
