@@ -12,6 +12,7 @@ public enum ExceptionEnum {
     USER_EXISTS(2001, "User exists"),
     USER_NOT_FOUND(2002, "User not found"),
     WRONG_PASSWORD(2003, "Wrong password"),
+    INVALID_INVITATION_CODE(2004, "Invalid invitation code")
     ;
 
     private final int code;
