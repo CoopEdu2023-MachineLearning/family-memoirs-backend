@@ -1,5 +1,8 @@
 package cn.moonshotacademy.memoirs.service;
 
+import cn.moonshotacademy.memoirs.dto.DemoDto;
+import cn.moonshotacademy.memoirs.entity.DemoEntity;
+
 public interface DemoService {
-    public String test();
+    public DemoEntity demo(DemoDto demoDto);
 }
