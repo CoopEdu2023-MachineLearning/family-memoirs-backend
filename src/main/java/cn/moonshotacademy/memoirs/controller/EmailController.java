@@ -5,11 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.moonshotacademy.memoirs.dto.EmailDto;
 import cn.moonshotacademy.memoirs.dto.ResponseDto;
 import cn.moonshotacademy.memoirs.service.EmailService;
 
@@ -22,14 +22,14 @@ public class EmailController {
     private EmailService emailService;
 
     @GetMapping("/getCode")
-    public ResponseDto<Void> getCode(@RequestParam("email") String email) {
-        emailService.getCode(email);
+    public ResponseDto<Void> getCode(EmailDto emailDto) {
+        emailService.getCode(emailDto);
         return ResponseDto.success();
     }
 
     @PostMapping("/verifyCode")
-    public ResponseDto<Void> verifyCode(@RequestParam("email") String email, @RequestParam("code") String code) {
-        emailService.verifyCode(email, code);
+    public ResponseDto<Void> verifyCode(EmailDto emailDto) {
+        emailService.verifyCode(emailDto);
         return ResponseDto.success();
     }
 

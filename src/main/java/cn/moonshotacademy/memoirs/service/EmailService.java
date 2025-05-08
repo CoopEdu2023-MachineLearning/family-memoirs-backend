@@ -1,7 +1,9 @@
 package cn.moonshotacademy.memoirs.service;
 
-public interface EmailService {
-    public void getCode(String email);
+import cn.moonshotacademy.memoirs.dto.EmailDto;
 
-    public void verifyCode(String email, String code);
+public interface EmailService {
+    public void getCode(EmailDto emailDto);
+
+    public void verifyCode(EmailDto emailDto);
 }

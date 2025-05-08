@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import cn.moonshotacademy.memoirs.dto.EmailDto;
 import cn.moonshotacademy.memoirs.entity.UserEntity;
 import cn.moonshotacademy.memoirs.exception.BusinessException;
 import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
@@ -30,7 +31,9 @@ public class EmailServiceImpl implements EmailService {
     private UserRepository userRepository;
 
     @Override
-    public void getCode(String email) {
+    public void getCode(EmailDto emailDto) {
+
+        String email = emailDto.getEmail();
 
         UserEntity userEntity = userRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessException(ExceptionEnum.EMAIL_NOT_FOUND));
@@ -53,7 +56,10 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void verifyCode(String email, String code) {
+    public void verifyCode(EmailDto emailDto) {
+
+        String email = emailDto.getEmail();
+        String code = emailDto.getCode();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
