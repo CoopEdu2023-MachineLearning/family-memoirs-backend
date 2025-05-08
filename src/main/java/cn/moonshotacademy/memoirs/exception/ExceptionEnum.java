@@ -3,8 +3,8 @@ package cn.moonshotacademy.memoirs.exception;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@Getter
 @AllArgsConstructor
+@Getter
 public enum ExceptionEnum {
 
     MISSING_PARAMETERS(1001, "Missing parameters"),

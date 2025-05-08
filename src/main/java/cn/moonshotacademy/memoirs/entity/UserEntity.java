@@ -1,7 +1,5 @@
 package cn.moonshotacademy.memoirs.entity;
 
-import org.apache.catalina.User;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

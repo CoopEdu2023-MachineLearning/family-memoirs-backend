@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import cn.moonshotacademy.memoirs.entity.UserEntity;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     Optional<UserEntity> findByEmail(String email);
 

@@ -3,25 +3,25 @@ package cn.moonshotacademy.memoirs.controller;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.moonshotacademy.memoirs.dto.ArticleDto;
 import cn.moonshotacademy.memoirs.dto.ResponseDto;
-import cn.moonshotacademy.memoirs.dto.UserDto;
-import cn.moonshotacademy.memoirs.service.UserService;
+import cn.moonshotacademy.memoirs.service.ArticleService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/article")
 @RequiredArgsConstructor
-public class UserController {
+public class ArticleController {
 
     @Autowired
-    private UserService userService;
+    private ArticleService articleService;
 
-    @GetMapping("/reset-password")
-    public ResponseDto<Void> resetPassword(UserDto userDto) {
-        userService.resetPassword(userDto);
+    @PostMapping("/upload")
+    public ResponseDto<Void> uploadArticle(ArticleDto articleDto) {
+        articleService.uploadArticle(articleDto);
         return ResponseDto.success();
     }
 
