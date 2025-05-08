@@ -25,8 +25,17 @@ public class UserEntity {
     @Column(unique = true)
     private String username;
 
-    @Column(unique = true)
+    @Column
     private String password;
+    
+    @Column(name = "photo_address")
+    private String photoAddress;
+    
+    @Column
+    private String introduction;
+    
+    @Column
+    private String name;
 
     public UserEntity(String email, String password, String username) {
         this.password = password;

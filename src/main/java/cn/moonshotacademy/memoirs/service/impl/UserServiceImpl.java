@@ -1,7 +1,6 @@
 package cn.moonshotacademy.memoirs.service.impl;
 
 import cn.moonshotacademy.memoirs.dto.LoginDto;
-import cn.moonshotacademy.memoirs.dto.ResponseDto;
 import cn.moonshotacademy.memoirs.dto.SignUpDto;
 import cn.moonshotacademy.memoirs.entity.UserEntity;
 import cn.moonshotacademy.memoirs.exception.BusinessException;
@@ -41,7 +40,7 @@ public class UserServiceImpl implements UserService {
         
         UserEntity user = new UserEntity();
         user.setUsername(signUpDto.getUsername());
-        user.setPassword(signUpDto.getPassword()); // In a real app, you should encrypt this
+        user.setPassword(signUpDto.getPassword());
         user.setEmail(signUpDto.getEmail());
         
         UserEntity savedUser = userRepository.save(user);
@@ -63,12 +62,11 @@ public class UserServiceImpl implements UserService {
         // Check if user exists and password matches
         if(userOptional.isPresent()) {
             UserEntity user = userOptional.get();
-            if(user.getPassword().equals(loginDto.getPassword())) { // In a real app, use password encoder
+            if(user.getPassword().equals(loginDto.getPassword())) {
                 return jwtService.setToken(user.getId().intValue());
             }
         }
         
-        // If authentication fails
         throw new BusinessException(ExceptionEnum.INVALID_CREDENTIALS);
     }
 }
