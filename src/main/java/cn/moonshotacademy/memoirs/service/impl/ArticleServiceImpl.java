@@ -12,6 +12,14 @@ import cn.moonshotacademy.memoirs.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/*
+    只有起始年代
+    只有起始年
+    起始年和结束年
+    只有起始年和月
+    起始年和月 + 结束年和月（考虑同年情况，前端）
+*/
+
 @Service
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
@@ -20,36 +28,32 @@ public class ArticleServiceImpl implements ArticleService {
     private final UserRepository userRepository;
 
     @Override
-    public ArticleEntity getArticleById(int id) {
-        return articleRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(ExceptionEnum.ARTICLE_NOT_FOUND));
-    }
+    public ArticleDto getArticleById(int id) {
+        ArticleEntity article = articleRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(ExceptionEnum.ARTICLE_NOT_FOUND));;
 
-    @Override
-    public ArticleDto getArticleDtoById(int id) {
-        ArticleEntity article = getArticleById(id);
-
-        // 获取文章关联的用户对象
-        UserEntity userEntity = userRepository.findById(article.getUser())
+        UserEntity userEntity = userRepository.findById(article.getUserId())
                 .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND));
 
-        // 转换用户实体为DTO
         UserDto userDto = UserDto.builder()
-                .id(Long.valueOf(userEntity.getId()))
+                .id(userEntity.getId())
                 .username(userEntity.getUsername())
                 .build();
 
-        // 构建并返回文章DTO，包含完整的用户信息
         return ArticleDto.builder()
                 .id(article.getId())
                 .era(article.getEra())
-                .startDate(article.getStartDate())
-                .endDate(article.getEndDate())
+                .tellerId(article.getTellerId())
+                .startYear(article.getStartYear())
+                .endYear(article.getEndYear())
+                .startMonth(article.getStartMonth())
+                .endMonth(article.getEndMonth())
                 .location(article.getLocation())
                 .text(article.getText())
                 .user(userDto)
                 .description(article.getDescription())
-                .status(article.getStatus())
+                .textStatus(article.getTextStatus())
+                .descriptionStatus(article.getDescriptionStatus())
                 .build();
     }
 }

@@ -19,6 +19,6 @@ public class ArticleController {
 
     @GetMapping("/{id}")
     public ResponseDto<ArticleDto> getArticleDetails(@PathVariable int id) {
-        return ResponseDto.success(articleService.getArticleDtoById(id));
+        return ResponseDto.success(articleService.getArticleById(id));
     }
 }

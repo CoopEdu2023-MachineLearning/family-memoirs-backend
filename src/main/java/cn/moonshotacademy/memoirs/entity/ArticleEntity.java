@@ -18,10 +18,10 @@ public class ArticleEntity {
     private String text;
 
     @Column(name = "teller_id")
-    private Long tellerId;
+    private Integer tellerId;
 
     @Column(name = "user_id")
-    private Long userId;
+    private Integer userId;
 
     @Column(name = "description")
     private String description;

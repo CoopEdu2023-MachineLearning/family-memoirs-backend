@@ -14,12 +14,15 @@ import java.sql.Date;
 public class ArticleDto {
     private Long id;
     private String location;
-    private String era;
-    private Date startDate;
-    private Date endDate;
     private String text;
-    //    private String teller;
+    private Integer tellerId;
     private UserDto user;
     private String description;
-    private Integer status;
+    private Integer textStatus;
+    private Integer descriptionStatus;
+    private Integer era;
+    private Integer startYear;
+    private Integer endYear;
+    private Integer startMonth;
+    private Integer endMonth;
 }
