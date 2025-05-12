@@ -30,4 +30,5 @@ public class ResponseDto<T> {
     public static ResponseDto<Void> error(Integer code, String message) {
         return new ResponseDto<>(code, message, null);
     }
+
 }

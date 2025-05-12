@@ -6,7 +6,7 @@ import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import cn.moonshotacademy.memoirs.service.EmailService;
 import cn.moonshotacademy.memoirs.dto.ResponseDto;
 import cn.moonshotacademy.memoirs.service.UserService;
 
@@ -22,4 +22,5 @@ public class UserController {
         userService.signup(signUpDto);
         return ResponseDto.success();
     }
+
 }
