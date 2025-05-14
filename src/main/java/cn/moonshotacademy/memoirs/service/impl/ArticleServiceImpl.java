@@ -22,7 +22,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleDto getArticleById(int id) {
         ArticleEntity article = articleRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(ExceptionEnum.ARTICLE_NOT_FOUND));;
+                .orElseThrow(() -> new BusinessException(ExceptionEnum.ARTICLE_NOT_FOUND));
 
         UserEntity userEntity = userRepository.findById(article.getUserId())
                 .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND));

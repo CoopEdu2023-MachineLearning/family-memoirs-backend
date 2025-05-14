@@ -1,8 +1,7 @@
 package cn.moonshotacademy.memoirs.service.impl;
 
-import org.springframework.stereotype.Service;
-
 import cn.moonshotacademy.memoirs.service.DemoService;
+import org.springframework.stereotype.Service;
 
 @Service
 public class DemoServiceImpl implements DemoService {
