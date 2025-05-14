@@ -12,14 +12,6 @@ import cn.moonshotacademy.memoirs.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/*
-    只有起始年代
-    只有起始年
-    起始年和结束年
-    只有起始年和月
-    起始年和月 + 结束年和月（考虑同年情况，前端）
-*/
-
 @Service
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
