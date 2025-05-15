@@ -1,5 +1,7 @@
 package cn.moonshotacademy.memoirs.service.impl;
 
+import cn.moonshotacademy.memoirs.exception.BusinessException;
+import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
 import cn.moonshotacademy.memoirs.service.ImageService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -21,9 +23,9 @@ public class ImageServiceImpl implements ImageService {
             if (resource.exists() && resource.isReadable()) {
                 return resource;
             }
-            throw new RuntimeException("Could not find file: " + filename);
+            throw new BusinessException(ExceptionEnum.IMAGE_NOT_FOUND);
         } catch (MalformedURLException e) {
-            throw new RuntimeException("Could not load file: " + filename, e);
+            throw new BusinessException(ExceptionEnum.IMAGE_LOAD_FAILED);
         }
     }
 }
