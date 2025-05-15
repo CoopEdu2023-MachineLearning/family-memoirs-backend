@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -16,6 +18,7 @@ public class ArticleDto {
     private Integer tellerId;
     private UserDto user;
     private String description;
+    private List<ImageDto> images;
     private Integer textStatus;
     private Integer descriptionStatus;
     private Integer era;

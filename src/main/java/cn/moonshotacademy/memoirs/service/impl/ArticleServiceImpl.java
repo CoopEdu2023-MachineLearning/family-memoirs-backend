@@ -1,16 +1,21 @@
 package cn.moonshotacademy.memoirs.service.impl;
 
 import cn.moonshotacademy.memoirs.dto.ArticleDto;
+import cn.moonshotacademy.memoirs.dto.ImageDto;
 import cn.moonshotacademy.memoirs.dto.UserDto;
 import cn.moonshotacademy.memoirs.entity.ArticleEntity;
+import cn.moonshotacademy.memoirs.entity.ImageEntity;
 import cn.moonshotacademy.memoirs.entity.UserEntity;
 import cn.moonshotacademy.memoirs.exception.BusinessException;
 import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
 import cn.moonshotacademy.memoirs.repository.ArticleRepository;
+import cn.moonshotacademy.memoirs.repository.ImageRepository;
 import cn.moonshotacademy.memoirs.repository.UserRepository;
 import cn.moonshotacademy.memoirs.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +23,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
+    private final ImageRepository imageRepository;
 
     @Override
     public ArticleDto getArticleById(int id) {
@@ -27,10 +33,20 @@ public class ArticleServiceImpl implements ArticleService {
         UserEntity userEntity = userRepository.findById(article.getUserId())
                 .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND));
 
+        List<ImageEntity> images = imageRepository.findAllByArticleId((long) id);
+
         UserDto userDto = UserDto.builder()
                 .id(userEntity.getId())
                 .username(userEntity.getUsername())
                 .build();
+
+
+        List<ImageDto> imageDto = images.stream()
+                .map(image -> ImageDto.builder()
+                        .id(Math.toIntExact(image.getId()))
+                        .imageUrl(image.getImageUrl())
+                        .build())
+                .toList();
 
         return ArticleDto.builder()
                 .id(article.getId())
@@ -43,6 +59,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .location(article.getLocation())
                 .text(article.getText())
                 .user(userDto)
+                .images(imageDto)
                 .description(article.getDescription())
                 .textStatus(article.getTextStatus())
                 .descriptionStatus(article.getDescriptionStatus())

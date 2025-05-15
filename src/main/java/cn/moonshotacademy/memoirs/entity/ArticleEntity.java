@@ -3,6 +3,9 @@ package cn.moonshotacademy.memoirs.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "article")
 @Data
@@ -46,4 +49,8 @@ public class ArticleEntity {
 
     @Column(name = "end_month")
     private Integer endMonth;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "article_id")
+    private Set<ImageEntity> images = new HashSet<>();
 }
