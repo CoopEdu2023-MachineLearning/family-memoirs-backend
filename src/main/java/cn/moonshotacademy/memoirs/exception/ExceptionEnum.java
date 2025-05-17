@@ -21,6 +21,8 @@ public enum ExceptionEnum {
     AUDIO_NOT_FOUND(5001, "Audio not found"),
 
     TELLER_NOT_FOUND(6001, "Teller not found"),
+
+    TAG_NOT_FOUND(7001, "Tag not found"),
     ;
 
     private final int code;
