@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 @Entity
 @Table(name = "teller")
 @Data
@@ -23,13 +25,13 @@ public class TellerEntity {
     private String name_state;
 
     @Column(name="gender")
-    private String gender;
+    private Boolean gender;
 
     @Column(name="birthplace")
     private String birthplace;
 
     @Column(name="birthdate")
-    private String birthdate;
+    private Date birthdate;
 
     @Column(name="intro")
     private String intro;

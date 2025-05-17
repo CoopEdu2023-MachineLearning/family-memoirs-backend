@@ -15,10 +15,11 @@ public class ArticleDto {
     private Long id;
     private String location;
     private String text;
-    private Integer tellerId;
-    private UserDto user;
+    private TellerDto teller;
+    private String user;
     private String description;
     private List<ImageDto> images;
+    private List<TagDto> tags;
     private Integer textStatus;
     private Integer descriptionStatus;
     private Integer era;

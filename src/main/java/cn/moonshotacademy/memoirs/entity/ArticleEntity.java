@@ -53,4 +53,11 @@ public class ArticleEntity {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "article_id")
     private Set<ImageEntity> images = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "article_tag_rel",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<TagEntity> tagList = new HashSet<>();
 }
