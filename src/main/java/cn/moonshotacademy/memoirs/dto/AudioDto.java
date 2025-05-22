@@ -5,18 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TellerDto {
+public class AudioDto {
     private Integer id;
-    private String nameOld;
-    private String gender;
-    private String birthplace;
-    private String birthdate;
-    private String introOld;
-    private String avatarUrlOld;
+    private String audioUrl;
+    private String name;
+    private Integer duration;
+    private Integer status;
 }

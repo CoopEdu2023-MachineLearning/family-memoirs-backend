@@ -54,6 +54,10 @@ public class ArticleEntity {
     @JoinColumn(name = "article_id")
     private Set<ImageEntity> images = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "article_id")
+    private Set<AudioEntity> audio = new HashSet<>();
+
     @ManyToMany
     @JoinTable(
             name = "article_tag_rel",

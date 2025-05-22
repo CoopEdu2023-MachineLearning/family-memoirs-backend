@@ -15,39 +15,42 @@ public class TellerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name", unique = true)
-    private String name;
+    @Column(name="identity")
+    private String identity;
+
+    @Column(name = "name_old", unique = true)
+    private String nameOld;
 
     @Column(name = "name_new", unique = true)
-    private String name_new;
+    private String nameNew;
 
     @Column(name="name_state")
-    private String name_state;
+    private String nameState;
 
     @Column(name="gender")
-    private Boolean gender;
+    private String gender;
 
     @Column(name="birthplace")
     private String birthplace;
 
     @Column(name="birthdate")
-    private Date birthdate;
+    private String birthdate;
 
-    @Column(name="intro")
-    private String intro;
+    @Column(name="intro_old")
+    private String introOld;
 
     @Column(name="intro_new")
-    private String intro_new;
+    private String introNew;
 
     @Column(name="intro_state")
-    private String intro_state;
+    private String introState;
 
-    @Column(name="avatar_url")
-    private String avatar_url;
+    @Column(name="avatar_url_old")
+    private String avatarUrlOld;
 
     @Column(name="avatar_url_new")
-    private String avatar_url_new;
+    private String avatarUrlNew;
 
     @Column(name="avatar_state")
-    private String avatar_state;
+    private String avatarState;
 }

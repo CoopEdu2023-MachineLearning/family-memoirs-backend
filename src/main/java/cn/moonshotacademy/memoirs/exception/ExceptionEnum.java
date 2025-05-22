@@ -19,10 +19,14 @@ public enum ExceptionEnum {
     IMAGE_LOAD_FAILED(4002, "Image load failed"),
 
     AUDIO_NOT_FOUND(5001, "Audio not found"),
+    AUDIO_LOAD_FAILED(5002, "Audio load failed"),
 
     TELLER_NOT_FOUND(6001, "Teller not found"),
 
     TAG_NOT_FOUND(7001, "Tag not found"),
+
+    AVATAR_NOT_FOUND(8001, "Avatar not found"),
+    AVATAR_LOAD_FAILED(8002, "Avatar load failed"),
     ;
 
     private final int code;

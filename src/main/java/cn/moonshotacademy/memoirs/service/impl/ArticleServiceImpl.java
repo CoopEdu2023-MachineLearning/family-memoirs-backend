@@ -1,19 +1,10 @@
 package cn.moonshotacademy.memoirs.service.impl;
 
-import cn.moonshotacademy.memoirs.dto.ArticleDto;
-import cn.moonshotacademy.memoirs.dto.ImageDto;
-import cn.moonshotacademy.memoirs.dto.TagDto;
-import cn.moonshotacademy.memoirs.dto.TellerDto;
-import cn.moonshotacademy.memoirs.entity.ArticleEntity;
-import cn.moonshotacademy.memoirs.entity.ImageEntity;
-import cn.moonshotacademy.memoirs.entity.TagEntity;
-import cn.moonshotacademy.memoirs.entity.TellerEntity;
+import cn.moonshotacademy.memoirs.dto.*;
+import cn.moonshotacademy.memoirs.entity.*;
 import cn.moonshotacademy.memoirs.exception.BusinessException;
 import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
-import cn.moonshotacademy.memoirs.repository.ArticleRepository;
-import cn.moonshotacademy.memoirs.repository.ImageRepository;
-import cn.moonshotacademy.memoirs.repository.TellerRepository;
-import cn.moonshotacademy.memoirs.repository.UserRepository;
+import cn.moonshotacademy.memoirs.repository.*;
 import cn.moonshotacademy.memoirs.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +18,7 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
     private final ImageRepository imageRepository;
+    private final AudioRepository audioRepository;
     private final TellerRepository tellerRepository;
 
     @Override
@@ -43,9 +35,9 @@ public class ArticleServiceImpl implements ArticleService {
 
         TellerDto tellerDto = TellerDto.builder()
                 .id(teller.getId())
-                .name(teller.getName())
-                .intro(teller.getIntro())
-                .avatar_url(teller.getAvatar_url())
+                .nameOld(teller.getNameOld())
+                .introOld(teller.getIntroOld())
+                .avatarUrlOld(teller.getAvatarUrlOld())
                 .gender(teller.getGender())
                 .birthplace(teller.getBirthplace())
                 .birthdate(teller.getBirthdate())
@@ -57,6 +49,18 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(image -> ImageDto.builder()
                         .id(Math.toIntExact(image.getId()))
                         .imageUrl(image.getImageUrl())
+                        .build())
+                .toList();
+
+        List<AudioEntity> audios = audioRepository.findAllByArticleId((long) id);
+
+        List<AudioDto> audioDto = audios.stream()
+                .map(audio -> AudioDto.builder()
+                        .id(Math.toIntExact(audio.getId()))
+                        .audioUrl(audio.getAudioUrl())
+                        .name(audio.getName())
+                        .duration(audio.getDuration())
+                        .status(audio.getStatus())
                         .build())
                 .toList();
 
@@ -81,6 +85,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .text(article.getText())
                 .user(username)
                 .images(imageDto)
+                .audio(audioDto)
                 .tags(tagDto)
                 .description(article.getDescription())
                 .textStatus(article.getTextStatus())

@@ -19,6 +19,7 @@ public class ArticleDto {
     private String user;
     private String description;
     private List<ImageDto> images;
+    private List<AudioDto> audio;
     private List<TagDto> tags;
     private Integer textStatus;
     private Integer descriptionStatus;
