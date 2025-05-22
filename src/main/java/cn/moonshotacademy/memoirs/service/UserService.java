@@ -2,6 +2,7 @@ package cn.moonshotacademy.memoirs.service;
 
 import cn.moonshotacademy.memoirs.dto.SignUpDto;
 import cn.moonshotacademy.memoirs.dto.LoginDto;
+import cn.moonshotacademy.memoirs.dto.UserDto;
 import io.jsonwebtoken.JwtException;
 
 public interface UserService {
@@ -9,5 +10,4 @@ public interface UserService {
     String login(LoginDto loginDto) throws JwtException;
 
     public void resetPassword(UserDto userDto);
-
 }

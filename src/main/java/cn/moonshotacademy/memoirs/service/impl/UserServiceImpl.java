@@ -52,8 +52,10 @@ public class UserServiceImpl implements UserService {
 
         // Generate JWT token
         return jwtService.setToken(savedUser.getId().intValue());
+    }
+    
+    @Override
     public void resetPassword(UserDto userDto) {
-
         String email = userDto.getEmail();
         String password = userDto.getPassword();
 
@@ -62,7 +64,6 @@ public class UserServiceImpl implements UserService {
 
         userEntity.setPassword(password);
         userRepository.save(userEntity);
-
     }
 
     @Override
