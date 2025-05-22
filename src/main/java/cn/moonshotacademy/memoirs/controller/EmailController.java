@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,13 +22,13 @@ public class EmailController {
     private EmailService emailService;
 
     @GetMapping("/getCode")
-    public ResponseDto<Void> getCode(EmailDto emailDto) {
+    public ResponseDto<Void> getCode(@RequestBody EmailDto emailDto) {
         emailService.getCode(emailDto);
         return ResponseDto.success();
     }
 
     @PostMapping("/verifyCode")
-    public ResponseDto<Void> verifyCode(EmailDto emailDto) {
+    public ResponseDto<Void> verifyCode(@RequestBody EmailDto emailDto) {
         emailService.verifyCode(emailDto);
         return ResponseDto.success();
     }

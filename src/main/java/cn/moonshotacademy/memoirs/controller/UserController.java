@@ -3,12 +3,10 @@ package cn.moonshotacademy.memoirs.controller;
 import cn.moonshotacademy.memoirs.dto.LoginDto;
 import cn.moonshotacademy.memoirs.dto.SignUpDto;
 import cn.moonshotacademy.memoirs.dto.UserDto;
-import cn.moonshotacademy.memoirs.exception.BusinessException;
-import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +28,8 @@ public class UserController {
         return ResponseDto.success();
     }
 
-    @GetMapping("/reset-password")
-    public ResponseDto<Void> resetPassword(UserDto userDto) {
+    @PostMapping("/reset-password")
+    public ResponseDto<Void> resetPassword(@RequestBody UserDto userDto) {
         userService.resetPassword(userDto);
         return ResponseDto.success();
     }

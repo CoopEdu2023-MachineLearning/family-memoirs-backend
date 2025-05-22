@@ -1,6 +1,5 @@
 package cn.moonshotacademy.memoirs.entity;
 
-import jakarta.persistence.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +24,7 @@ public class UserEntity {
 
     @Column(name = "avatar_url_new")
     private String avatar_url_new;
+    
     @Column(unique = true)
     private String email;
 
@@ -32,7 +32,6 @@ public class UserEntity {
     private String avatar_status;
 
     @Column(name = "username", unique = true)
-    @Column(unique = true)
     private String username;
 
     @Column(name = "username_new", unique = true)
@@ -42,10 +41,8 @@ public class UserEntity {
     private String username_status;
 
     @Column(name = "password", unique = true)
-    @Column
     private String password;
 
-    @Column(name = "introduction")
 
     @Column(name = "photo_address")
     private String photoAddress;
@@ -61,9 +58,6 @@ public class UserEntity {
 
     @Column(name = "introduction_status")
     private String introduction_status;
-
-    @Column(name = "email", unique = true)
-    private String email;
 
     public UserEntity(String email, String password, String username) {
         this.password = password;

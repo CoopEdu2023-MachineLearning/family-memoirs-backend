@@ -3,8 +3,11 @@ package cn.moonshotacademy.memoirs.service;
 import cn.moonshotacademy.memoirs.dto.ArticleDto;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface ArticleService {
-    public void uploadArticle(ArticleDto articleDto);
+    void uploadArticle(ArticleDto articleDto);
     ArticleDto getArticleById(int id);
+    List<ArticleDto> getAllArticles();
 }

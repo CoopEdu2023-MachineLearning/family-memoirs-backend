@@ -9,7 +9,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -23,10 +22,10 @@ public class ImageEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @Column(name = "article_id")
+    @Column(name = "article_id", insertable = false, updatable = false)
     private Long articleId;
+    
     @ManyToOne
     @JoinColumn(name = "article_id") // 外键
     private ArticleEntity article;
-
 }

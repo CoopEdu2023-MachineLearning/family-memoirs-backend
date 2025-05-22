@@ -13,8 +13,6 @@ import cn.moonshotacademy.memoirs.repository.UserRepository;
 import cn.moonshotacademy.memoirs.service.JwtService;
 import cn.moonshotacademy.memoirs.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
@@ -51,7 +49,7 @@ public class UserServiceImpl implements UserService {
         UserEntity savedUser = userRepository.save(user);
 
         // Generate JWT token
-        return jwtService.setToken(savedUser.getId().intValue());
+        return jwtService.setToken(savedUser.getId());
     }
     
     @Override
@@ -80,7 +78,7 @@ public class UserServiceImpl implements UserService {
         if(userOptional.isPresent()) {
             UserEntity user = userOptional.get();
             if(user.getPassword().equals(loginDto.getPassword())) {
-                return jwtService.setToken(user.getId().intValue());
+                return jwtService.setToken(user.getId());
             }
         }
 

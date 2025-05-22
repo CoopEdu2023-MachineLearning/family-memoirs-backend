@@ -24,8 +24,8 @@ public class TellerEntity {
     @Column(name="name_state")
     private String name_state;
 
-    @Column(name="gender")
-    private Boolean gender;
+    @Column(name = "gender")
+    private String gender;
 
     @Column(name="birthplace")
     private String birthplace;

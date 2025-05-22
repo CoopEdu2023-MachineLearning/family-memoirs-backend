@@ -14,7 +14,7 @@ import java.sql.Date;
 public class TellerDto {
     private Integer id;
     private String name;
-    private Boolean gender;
+    private String gender; // 改为String类型，与实体类保持一致
     private String birthplace;
     private Date birthdate;
     private String intro;
