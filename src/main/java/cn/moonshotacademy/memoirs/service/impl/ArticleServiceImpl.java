@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import cn.moonshotacademy.memoirs.dto.ArticleDto;
+import cn.moonshotacademy.memoirs.dto.ArticleListDto;
 import cn.moonshotacademy.memoirs.dto.ImageDto;
 import cn.moonshotacademy.memoirs.dto.TagDto;
 import cn.moonshotacademy.memoirs.dto.TellerDto;
@@ -105,61 +106,27 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<ArticleDto> getAllArticles() {
+    public List<ArticleListDto> getAllArticles() {
         List<ArticleEntity> articles = articleRepository.findAll();
         
         return articles.stream().map(article -> {
-            String username = userRepository.findById(article.getUserId())
-                    .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND))
-                    .getUsername();
-    
-            TellerEntity teller = tellerRepository.findById(article.getTellerId())
-                    .orElseThrow(() -> new BusinessException(ExceptionEnum.TELLER_NOT_FOUND));
-    
-            TellerDto tellerDto = TellerDto.builder()
-                    .id(teller.getId())
-                    .name(teller.getName())
-                    .intro(teller.getIntro())
-                    .avatar_url(teller.getAvatar_url())
-                    .gender(teller.getGender())
-                    .birthplace(teller.getBirthplace())
-                    .birthdate(teller.getBirthdate())
-                    .build();
-    
-            List<ImageEntity> images = imageRepository.findAllByArticleId((long) article.getId());
-    
-            List<ImageDto> imageDto = images.stream()
-                    .map(image -> ImageDto.builder()
-                            .id(Math.toIntExact(image.getId()))
-                            .imageUrl(image.getImageUrl())
-                            .build())
-                    .toList();
-    
+            // 获取文章的标签
             List<TagEntity> tags = articleRepository.findTagsByArticleId(article.getId());
-    
-            List<TagDto> tagDto = tags.stream()
+            
+            List<TagDto> tagDtos = tags.stream()
                     .map(tag -> TagDto.builder()
                             .id(tag.getId())
                             .name(tag.getName())
                             .build())
-                    .toList();
-    
-            return ArticleDto.builder()
+                    .collect(Collectors.toList());
+            
+            return ArticleListDto.builder()
                     .id(article.getId())
-                    .era(article.getEra())
-                    .teller(tellerDto)
+                    .location(article.getLocation() != null ? article.getLocation() : "")
                     .startYear(article.getStartYear())
-                    .endYear(article.getEndYear())
                     .startMonth(article.getStartMonth())
-                    .endMonth(article.getEndMonth())
-                    .location(article.getLocation())
-                    .text(article.getText())
-                    .user(username)
-                    .images(imageDto)
-                    .tags(tagDto)
-                    .description(article.getDescription())
-                    .textStatus(article.getTextStatus())
-                    .descriptionStatus(article.getDescriptionStatus())
+                    .era(String.valueOf(article.getEra()))
+                    .tags(tagDtos)
                     .build();
         }).collect(Collectors.toList());
     }

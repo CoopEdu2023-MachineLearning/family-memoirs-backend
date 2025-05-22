@@ -1,6 +1,7 @@
 package cn.moonshotacademy.memoirs.controller;
 
 import cn.moonshotacademy.memoirs.dto.ArticleDto;
+import cn.moonshotacademy.memoirs.dto.ArticleListDto;
 import cn.moonshotacademy.memoirs.dto.ResponseDto;
 import cn.moonshotacademy.memoirs.service.ArticleService;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class ArticleController {
     }
     
     @GetMapping("/all")
-    public ResponseDto<List<ArticleDto>> getArticles() {
+    public ResponseDto<List<ArticleListDto>> getArticles() {
         return ResponseDto.success(articleService.getAllArticles());
     }
 }
