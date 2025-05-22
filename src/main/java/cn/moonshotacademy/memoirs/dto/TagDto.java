@@ -9,20 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
-
-    private int id;
-
-    private String username;
-
-    private String email;
-
-    private String password;
-
-    private String photoAddress;
-
-    private String introduction;
-
+public class TagDto {
+    private Integer id;
     private String name;
-
 }

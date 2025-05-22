@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +17,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "article")
 public class ArticleEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -28,30 +28,43 @@ public class ArticleEntity {
     private String text;
 
     @Column(name = "teller_id")
-    private int tellerId;
+    private Integer tellerId;
 
     @Column(name = "user_id")
-    private int userId;
+    private Integer userId;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "status")
-    private String status;
-
-    @Column(name = "era")
-    private String era;
-
-    @Column(name = "start_date")
-    private String startDate;
-
-    @Column(name = "end_date")
-    private String endDate;
+    @Column(name = "text_status")
+    private Integer textStatus;
 
     @Column(name = "description_status")
-    private String descriptionStatus;
+    private Integer descriptionStatus;
 
-    @Column(name = "text_status")
-    private String textStatus;
+    @Column(name = "era")
+    private Integer era;
 
+    @Column(name = "start_year")
+    private Integer startYear;
+
+    @Column(name = "end_year")
+    private Integer endYear;
+
+    @Column(name = "start_month")
+    private Integer startMonth;
+
+    @Column(name = "end_month")
+    private Integer endMonth;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "article_id")
+    private Set<ImageEntity> images = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "article_tag_rel",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<TagEntity> tagList = new HashSet<>();
 }

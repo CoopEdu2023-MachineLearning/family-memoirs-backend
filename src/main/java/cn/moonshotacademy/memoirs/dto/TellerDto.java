@@ -5,24 +5,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
-
-    private int id;
-
-    private String username;
-
-    private String email;
-
-    private String password;
-
-    private String photoAddress;
-
-    private String introduction;
-
+public class TellerDto {
+    private Integer id;
     private String name;
-
+    private Boolean gender;
+    private String birthplace;
+    private Date birthdate;
+    private String intro;
+    private String avatar_url;
 }

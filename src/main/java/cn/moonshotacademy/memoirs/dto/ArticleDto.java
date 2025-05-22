@@ -1,11 +1,13 @@
 package cn.moonshotacademy.memoirs.dto;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleDto {
@@ -13,25 +15,17 @@ public class ArticleDto {
     private int id;
 
     private String location;
-
     private String text;
-
-    private int tellerId;
-
-    private int userId;
-
+    private TellerDto teller;
+    private String user;
     private String description;
-
-    private String status;
-
-    private String era;
-
-    private String startDate;
-
-    private String endDate;
-
-    private String descriptionStatus;
-
-    private String textStatus;
-
+    private List<ImageDto> images;
+    private List<TagDto> tags;
+    private Integer textStatus;
+    private Integer descriptionStatus;
+    private Integer era;
+    private Integer startYear;
+    private Integer endYear;
+    private Integer startMonth;
+    private Integer endMonth;
 }
