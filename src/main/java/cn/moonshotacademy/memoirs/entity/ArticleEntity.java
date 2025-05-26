@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Entity
 @Data
@@ -19,34 +20,50 @@ public class ArticleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
+    @NonNull
     @Column(name = "location")
     private String location;
 
+    @NonNull
     @Column(name = "text")
     private String text;
 
+    @NonNull
     @Column(name = "teller_id")
-    private int tellerId;
+    private Integer tellerId;
 
+    @NonNull
     @Column(name = "user_id")
-    private int userId;
+    private Integer userId;
 
+    @NonNull
     @Column(name = "description")
     private String description;
 
     @Column(name = "status")
     private String status;
 
+    @NonNull
     @Column(name = "era")
-    private String era;
+    private Integer era;
 
-    @Column(name = "start_date")
-    private String startDate;
+    @NonNull
+    @Column(name = "start_year")
+    private Integer startYear;
 
-    @Column(name = "end_date")
-    private String endDate;
+    @NonNull
+    @Column(name = "end_year")
+    private Integer endYear;
+
+    @NonNull
+    @Column(name = "start_month")
+    private Integer startMonth;
+
+    @NonNull
+    @Column(name = "end_month")
+    private Integer endMonth;
 
     @Column(name = "description_status")
     private String descriptionStatus;

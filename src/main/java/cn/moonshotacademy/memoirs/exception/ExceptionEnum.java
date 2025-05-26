@@ -16,6 +16,9 @@ public enum ExceptionEnum {
 
     EMAIL_NOT_FOUND(3001, "Email not found"),
     EMAIL_REQEUST_FAILED(3002, "Email request failed"),
+
+    NO_VERIFIED_ARTICLE(4003, "No verified article"),
+    NO_UNVERIFIED_ARTICLE(4004, "No unverified article"),
     ;
 
     private final int code;

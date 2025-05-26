@@ -10,25 +10,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ArticleDto {
 
-    private int id;
+    private Integer id;
 
     private String location;
 
     private String text;
 
-    private int tellerId;
+    private Integer tellerId;
 
-    private int userId;
+    private Integer userId;
 
     private String description;
 
     private String status;
 
-    private String era;
+    private Integer era;
 
-    private String startDate;
+    private Integer startYear;
 
-    private String endDate;
+    private Integer endYear;
+
+    private Integer startMonth;
+
+    private Integer endMonth;
 
     private String descriptionStatus;
 
