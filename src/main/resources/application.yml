@@ -2,9 +2,9 @@ spring:
   application:
     name: family-memoirs
   datasource:
-    url: jdbc:postgresql://localhost:5432/memoirs
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://localhost:5432/msa_museum
+    username: testuser
+    password: password
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:
