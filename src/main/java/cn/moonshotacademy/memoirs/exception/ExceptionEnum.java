@@ -12,6 +12,10 @@ public enum ExceptionEnum {
     USER_NOT_FOUND(2001, "User not found"),
     USER_EXISTS(2002, "User exists"),
     WRONG_PASSWORD(2003, "Wrong password"),
+    USERNAME_ALREADY_EXISTS(2004, "Username already exists"),
+    EMAIL_ALREADY_EXISTS(2005, "Email already exists"),
+    INVALID_PASSWORD(2006, "Invalid password"),
+    PASSWORD_TOO_WEAK(2007, "Password too weak"),
 
     ARTICLE_NOT_FOUND(3001, "Article not found"),
 
