@@ -20,7 +20,6 @@ public class UserServiceImpl implements cn.moonshotacademy.memoirs.service.UserS
         UserEntity user = new UserEntity();
         if(signUpDto.getEmail() == null ||
                 signUpDto.getPassword() == null ||
-                signUpDto.getUsername() == null ||
                 signUpDto.getVerificationCode() == null ||
                 signUpDto.getInvitationCode() == null){
             throw new BusinessException(ExceptionEnum.MISSING_PARAMETERS);
@@ -38,7 +37,6 @@ public class UserServiceImpl implements cn.moonshotacademy.memoirs.service.UserS
             throw new BusinessException(ExceptionEnum.EMAIL_REQEUST_FAILED);
         }
         //Signup success
-        user.setUsername(signUpDto.getUsername());
         user.setPassword(signUpDto.getPassword());
         user.setEmail(signUpDto.getEmail());
         userRepository.save(user);
