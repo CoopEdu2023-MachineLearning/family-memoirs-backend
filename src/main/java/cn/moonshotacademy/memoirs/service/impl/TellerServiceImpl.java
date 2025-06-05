@@ -22,15 +22,15 @@ public class TellerServiceImpl implements TellerService {
         try {
             TellerEntity teller = new TellerEntity();
             teller.setIdentity(tellerDto.getIdentity());
-            teller.setNameNew(tellerDto.getNameNew());
+            teller.setName_new(tellerDto.getNameNew());
             teller.setGender(tellerDto.getGender()); 
             teller.setBirthplace(tellerDto.getBirthplace());
             teller.setBirthdate(tellerDto.getBirthdate());
-            teller.setIntroNew(tellerDto.getIntroNew());
+            teller.setIntro_new(tellerDto.getIntroNew());
             teller.setAvatarNew(tellerDto.getAvatarNew());
-            teller.setNameState("pending");
-            teller.setIntroState("pending");
-            teller.setAvatarState("pending");
+            teller.setName_state("pending");
+            teller.setIntro_state("pending");
+            teller.setAvatar_state("pending");
             TellerEntity savedTeller = tellerRepository.save(teller);
             return ResponseDto.success(tellerDto);
         } catch (Exception e) {
