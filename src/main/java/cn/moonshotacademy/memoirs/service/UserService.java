@@ -8,9 +8,9 @@ public interface UserService {
 
     public void changeUserName(int id, UserDto username);
 
-    public void changeUserEmail(String newEmail, String email);
+    public void changeUserEmail(int id, String newEmail);
 
-    public void changeUserPassword(String oldPassword, String newPassword, String email);
+    public void changeUserPassword(int id, String oldPassword, String newPassword);
 
-    public void changeUserAvatar(String avatarUrl, String email);
+    public void changeUserAvatar(int id, String avatarUrl);
 }

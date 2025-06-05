@@ -45,23 +45,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changeUserEmail(String newEmail, String userId) {
+    public void changeUserEmail(int id, String newEmail) {
         // Implementation for changing user email
     }
 
     @Override
-    public void changeUserPassword(String oldPassword, String newPassword, String email) {
-        // 通过邮箱查找用户
-        UserEntity user = userRepository.findByEmail(email)
+    public void changeUserPassword(int id, String oldPassword, String newPassword) {
+        UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND));
 
-        // 验证旧密码是否正确
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             throw new BusinessException(ExceptionEnum.INVALID_PASSWORD);
         }
 
-        // 验证新密码非空与合规性
         if (newPassword == null || newPassword.isEmpty()) {
             throw new BusinessException(ExceptionEnum.MISSING_PARAMETERS);
         }
@@ -72,15 +69,15 @@ public class UserServiceImpl implements UserService {
         }
          */
 
-        // 使用BCrypt加密新密码并更新
         user.setPassword(passwordEncoder.encode(newPassword));
-
-        // 保存更改
         userRepository.save(user);
     }
 
     @Override
-    public void changeUserAvatar(String avatarUrl, String userId) {
-        // Implementation for changing user avatar
+    public void changeUserAvatar(int id, String avatarUrl) {
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND));
+        
+
     }
 }
