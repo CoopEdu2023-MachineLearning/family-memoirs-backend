@@ -10,4 +10,6 @@ public class TellerDto {
     private LocalDate birthdate;
     private String introNew;
     private String avatarNew;
+    private Integer userId;
+    private String relationName;
 }

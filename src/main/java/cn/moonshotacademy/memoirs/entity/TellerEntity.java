@@ -15,6 +15,9 @@ public class TellerEntity {
     @Column(name = "identity")
     private String identity;
 
+    @Column(name = "user_id", nullable = false)
+    private Integer userId;
+
     @Column(name = "name_old")
     private String nameOld;
 
@@ -50,4 +53,9 @@ public class TellerEntity {
 
     @Column(name = "avatar_state")
     private String avatarState;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "relation_id", referencedColumnName = "id")
+    private RelationEntity relation;
+
 }

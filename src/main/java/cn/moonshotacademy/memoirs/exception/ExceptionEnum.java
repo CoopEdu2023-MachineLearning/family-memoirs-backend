@@ -14,6 +14,9 @@ public enum ExceptionEnum {
     WRONG_PASSWORD(2003, "Wrong password"),
     TELLER_CREATE_FAILED(2004, "Teller create failed"),
     FILE_UPLOAD_FILE(2005, "File upload failed"),
+    INVALID_USER_ID(2006, "无效的用户ID"),
+    INVALID_RELATION(2007, "无效的亲属关系"),
+    MUST_CREATE_SELF_FIRST(2008, "必须先创建‘我自己’的讲述者");
     ;
 
     private final int code;
