@@ -14,5 +14,5 @@ import java.util.List;
 @Repository
 public interface ArticleRepository extends JpaRepository<ArticleEntity, Integer> {
     @Query("SELECT t FROM ArticleEntity a JOIN a.tagList t WHERE a.id = :articleId")
-    List<TagEntity> findTagsByArticleId(int articleId);
+    List<TagEntity> findTagsByArticleId(@Param("articleId") Integer articleId);
 }

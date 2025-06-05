@@ -28,6 +28,11 @@ public enum ExceptionEnum {
 
     EMAIL_NOT_FOUND(3001, "Email not found"),
     EMAIL_REQEUST_FAILED(3002, "Email request failed"),
+    NULL_FILENAME(4001, "File name cannot be null"),
+    FAIL_UPLOAD(4003, "Fail to write to the Database"),
+    NULL_FILELIST(4004, "Cannot upload NULL filelist"),
+    TYPE_NOTALLOW(4005, "This file type is not allowed"),
+    FILE_NOT_FOUND(3006, "File not found")
     ;
 
     private final int code;

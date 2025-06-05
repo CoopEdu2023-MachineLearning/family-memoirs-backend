@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -46,7 +48,7 @@ public class ArticleEntity {
     private String descriptionStatus;
 
     @Column(name = "era")
-    private Integer era;
+    private String era;
 
     @Column(name = "start_year")
     private Integer startYear;
@@ -63,6 +65,10 @@ public class ArticleEntity {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "article_id")
     private Set<ImageEntity> images = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "article_id")
+    private Set<AudioEntity> audio = new HashSet<>();
 
     @ManyToMany
     @JoinTable(

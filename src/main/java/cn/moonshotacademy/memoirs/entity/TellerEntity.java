@@ -24,7 +24,13 @@ public class TellerEntity {
     @Column(name="name_state")
     private String name_state;
 
-    @Column(name = "gender")
+    @Column(name="identity")
+    private String identity;
+
+    @Column(name = "name_old", unique = true)
+    private String nameOld;
+
+    @Column(name="gender")
     private String gender;
 
     @Column(name="birthplace")
@@ -50,4 +56,7 @@ public class TellerEntity {
 
     @Column(name="avatar_state")
     private String avatar_state;
+
+    @Column(name="avatar_url_old")
+    private String avatarUrlOld;
 }
