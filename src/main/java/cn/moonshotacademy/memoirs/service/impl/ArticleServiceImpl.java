@@ -35,11 +35,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     private WaterDto convertToDto(ArticleEntity entity) {
         String tellerName = "";
+        TellerEntity teller = null;
         if (entity.getTellerId() != null) {
             Optional<TellerEntity> tellerO = tellerRepository.findById(entity.getTellerId());
             if(tellerO.isPresent()) {
-                TellerEntity teller = tellerO.get();
-                tellerName = teller.getNameOld();
+                teller = tellerO.get();
             }
         }
 
@@ -47,7 +47,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .id(entity.getId())
                 .location(entity.getLocation())
                 .text(entity.getText())
-                .teller(tellerName)
+                .teller(teller)
                 .user("User#" + entity.getUserId())
                 .description(entity.getDescription())
                 .images(Collections.emptyList())

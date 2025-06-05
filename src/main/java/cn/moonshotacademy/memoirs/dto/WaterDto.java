@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import cn.moonshotacademy.memoirs.entity.TellerEntity;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,7 +17,7 @@ public class WaterDto {
     private Long id;
     private String location;
     private String text;
-    private String teller; // 仅名字
+    private TellerEntity teller; // 仅名字
     private String user;
     private String description;
     private List<ImageDto> images;
