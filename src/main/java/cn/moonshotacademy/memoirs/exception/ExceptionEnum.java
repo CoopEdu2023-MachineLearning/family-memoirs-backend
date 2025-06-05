@@ -31,6 +31,10 @@ public enum ExceptionEnum {
 
     AVATAR_NOT_FOUND(8001, "Avatar not found"),
     AVATAR_LOAD_FAILED(8002, "Avatar load failed"),
+
+    NULL_FILENAME(9001, "File name empty"),
+    TYPE_NOTALLOW(9002, "File type not supported"),
+    UPLOAD_FILE_ERROR(9003, "File upload failed")
     ;
 
     private final int code;
