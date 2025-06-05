@@ -11,6 +11,7 @@ import java.sql.Date;
 @Data
 @NoArgsConstructor
 public class TellerEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -59,4 +60,15 @@ public class TellerEntity {
 
     @Column(name="avatar_url_old")
     private String avatarUrlOld;
+
+    @Column(name = "intro_old")
+    private String introOld;
+
+    @Column(name = "avatar_old")
+    private String avatarOld;
+
+    @Column(name = "avatar_new")
+    private String avatarNew;
+
+    
 }

@@ -22,4 +22,8 @@ public class TellerDto {
     private Date birthdate;
     private String introOld;
     private String avatarUrlOld;
+    private String identity;
+    private String nameNew;
+    private String introNew;
+    private String avatarNew;
 }

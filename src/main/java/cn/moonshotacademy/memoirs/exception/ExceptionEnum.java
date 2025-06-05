@@ -32,7 +32,9 @@ public enum ExceptionEnum {
     FAIL_UPLOAD(4003, "Fail to write to the Database"),
     NULL_FILELIST(4004, "Cannot upload NULL filelist"),
     TYPE_NOTALLOW(4005, "This file type is not allowed"),
-    FILE_NOT_FOUND(3006, "File not found")
+    FILE_NOT_FOUND(3006, "File not found"),
+    TELLER_CREATE_FAILED(2004, "Teller create failed"),
+    FILE_UPLOAD_FILE(2005, "File upload failed"),
     ;
 
     private final int code;
