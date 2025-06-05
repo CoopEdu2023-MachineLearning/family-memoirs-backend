@@ -67,13 +67,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(LoginDto loginDto) {
         // Validate required fields
-        if(loginDto.getUsername() == null || loginDto.getPassword() == null) {
+        if(loginDto.getEmail() == null || loginDto.getPassword() == null) {
             throw new BusinessException(ExceptionEnum.MISSING_PARAMETERS);
         }
-
-        // Find user by username
-        Optional<UserEntity> userOptional = userRepository.findByUsername(loginDto.getUsername());
-
+    
+        // Find user by email
+        Optional<UserEntity> userOptional = userRepository.findByEmail(loginDto.getEmail());
+    
         // Check if user exists and password matches
         if(userOptional.isPresent()) {
             UserEntity user = userOptional.get();
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
                 return jwtService.setToken(user.getId());
             }
         }
-
+    
         throw new BusinessException(ExceptionEnum.INVALID_CREDENTIALS);
     }
 }

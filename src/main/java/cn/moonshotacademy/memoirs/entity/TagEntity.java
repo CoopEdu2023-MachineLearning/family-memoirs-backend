@@ -16,4 +16,7 @@ public class TagEntity {
 
     @Column(name = "name", unique = true)
     private String name;
+
+    @Column(name = "recommend")
+    private Boolean recommend;
 }

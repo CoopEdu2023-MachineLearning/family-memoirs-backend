@@ -40,10 +40,10 @@ public class ArticleEntity {
     private String description;
 
     @Column(name = "text_status")
-    private Integer textStatus;
+    private String textStatus;
 
     @Column(name = "description_status")
-    private Integer descriptionStatus;
+    private String descriptionStatus;
 
     @Column(name = "era")
     private Integer era;
