@@ -14,7 +14,7 @@ import cn.moonshotacademy.memoirs.entity.TellerEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WaterDto {
-    private Long id;
+    private int id;
     private String location;
     private String text;
     private TellerEntity teller; // 仅名字
