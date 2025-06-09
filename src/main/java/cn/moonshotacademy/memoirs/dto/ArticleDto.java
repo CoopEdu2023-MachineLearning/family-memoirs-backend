@@ -1,6 +1,5 @@
 package cn.moonshotacademy.memoirs.dto;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +23,7 @@ public class ArticleDto {
 
     private String status;
 
-    private Integer era;
+    private String era;
 
     private Integer startYear;
 

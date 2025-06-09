@@ -45,23 +45,18 @@ public class ArticleEntity {
     @Column(name = "status")
     private String status;
 
-    @NonNull
     @Column(name = "era")
-    private Integer era;
+    private String era;
 
-    @NonNull
     @Column(name = "start_year")
     private Integer startYear;
 
-    @NonNull
     @Column(name = "end_year")
     private Integer endYear;
 
-    @NonNull
     @Column(name = "start_month")
     private Integer startMonth;
 
-    @NonNull
     @Column(name = "end_month")
     private Integer endMonth;
 

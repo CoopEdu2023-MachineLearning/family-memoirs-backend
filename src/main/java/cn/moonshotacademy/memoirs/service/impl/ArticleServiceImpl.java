@@ -20,13 +20,18 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleRepository articleRepository;
 
     @Override
+    public int createArticle(ArticleDto articleDto) throws BusinessException {
+        ArticleEntity articleEntity = new ArticleEntity();
+        articleRepository.save(articleEntity);
+        System.out.println(articleEntity.getId());
+        return articleEntity.getId();
+    }
+
+    @Override
     public void uploadArticle(ArticleDto articleDto) throws BusinessException {
         ArticleEntity articleEntity = new ArticleEntity();
-        try {
-            BeanUtils.copyProperties(articleDto, articleEntity); // copyProperties(source, target)
-        } catch (Exception e) {
-            throw new BusinessException(ExceptionEnum.MISSING_PARAMETERS);
-        }
+        BeanUtils.copyProperties(articleDto, articleEntity); // copyProperties(source, target)
+
         articleEntity.setStatus("unverified"); // unsubmitted unverified verified
         articleEntity.setDescriptionStatus("unverified");
         articleEntity.setTextStatus("unverified");

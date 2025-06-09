@@ -16,3 +16,7 @@ spring:
 logging:
   file:
     name: logs/application.log
+file:
+  storage:
+    disk: d://
+    location: msa-museum/files/

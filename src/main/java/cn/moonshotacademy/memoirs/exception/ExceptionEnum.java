@@ -19,6 +19,9 @@ public enum ExceptionEnum {
 
     NO_VERIFIED_ARTICLE(4003, "No verified article"),
     NO_UNVERIFIED_ARTICLE(4004, "No unverified article"),
+
+    UPLOAD_FILE_ERROR(5001, "Upload file error"),
+    EMPTY_FILE(5002, "Empty file"),
     ;
 
     private final int code;
