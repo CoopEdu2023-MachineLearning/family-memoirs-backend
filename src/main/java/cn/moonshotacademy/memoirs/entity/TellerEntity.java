@@ -28,7 +28,10 @@ public class TellerEntity {
     @Column(name="identity")
     private String identity;
 
-    @Column(name = "name_old", unique = true)
+    @Column(name = "user_id", nullable = false)
+    private Integer userId;
+
+    @Column(name = "name_old")
     private String nameOld;
 
     @Column(name="gender")
@@ -70,5 +73,8 @@ public class TellerEntity {
     @Column(name = "avatar_new")
     private String avatarNew;
 
-    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "relation_id", referencedColumnName = "id")
+    private RelationEntity relation;
+
 }
