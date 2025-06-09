@@ -1,21 +1,19 @@
 package cn.moonshotacademy.memoirs.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import cn.moonshotacademy.memoirs.dto.EmailDto;
 import cn.moonshotacademy.memoirs.entity.UserEntity;
 import cn.moonshotacademy.memoirs.exception.BusinessException;
 import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
 import cn.moonshotacademy.memoirs.repository.UserRepository;
 import cn.moonshotacademy.memoirs.service.EmailService;
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -26,16 +24,17 @@ public class EmailServiceImpl implements EmailService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @Autowired
-    private UserRepository userRepository;
+    @Autowired private UserRepository userRepository;
 
     @Override
     public void getCode(EmailDto emailDto) {
 
         String email = emailDto.getEmail();
 
-        UserEntity userEntity = userRepository.findByEmail(email)
-                .orElseThrow(() -> new BusinessException(ExceptionEnum.EMAIL_NOT_FOUND));
+        UserEntity userEntity =
+                userRepository
+                        .findByEmail(email)
+                        .orElseThrow(() -> new BusinessException(ExceptionEnum.EMAIL_NOT_FOUND));
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -50,7 +49,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             restTemplate.postForObject(GET_CODE_URL, request, String.class);
         } catch (Exception e) {
-            throw new BusinessException(ExceptionEnum.EMAIL_REQEUST_FAILED);
+            throw new BusinessException(ExceptionEnum.EMAIL_REQUEST_FAILED);
         }
     }
 
@@ -72,7 +71,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             restTemplate.postForObject(VERIFY_CODE_URL, request, String.class);
         } catch (Exception e) {
-            throw new BusinessException(ExceptionEnum.EMAIL_REQEUST_FAILED);
+            throw new BusinessException(ExceptionEnum.EMAIL_REQUEST_FAILED);
         }
     }
 }

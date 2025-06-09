@@ -39,19 +39,6 @@ public class UserServiceImpl implements UserService {
     private JwtService jwtService;
 
     @Override
-    public UserDto getUserInfo(int id){
-        UserEntity user = userRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND));
-        return(
-                UserDto.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                        .avatarUrl(user.getAvatarUrl())
-                        .build());
-    }
-
-    @Override
     public String signup(SignUpDto signUpDto) {
         // Validate required fields
         if(signUpDto.getEmail() == null ||
@@ -75,6 +62,27 @@ public class UserServiceImpl implements UserService {
         // Generate JWT token
         return jwtService.setToken(savedUser.getId());
     }
+
+    @Override
+    public String login(LoginDto loginDto) {
+        // Validate required fields
+        if(loginDto.getEmail() == null || loginDto.getPassword() == null) {
+            throw new BusinessException(ExceptionEnum.MISSING_PARAMETERS);
+        }
+
+        // Find user by email
+        Optional<UserEntity> userOptional = userRepository.findByEmail(loginDto.getEmail());
+
+        // Check if user exists and password matches
+        if(userOptional.isPresent()) {
+            UserEntity user = userOptional.get();
+            if(user.getPassword().equals(loginDto.getPassword())) {
+                return jwtService.setToken(user.getId());
+            }
+        }
+
+        throw new BusinessException(ExceptionEnum.INVALID_CREDENTIALS);
+    }
     
     @Override
     public void resetPassword(UserDto userDto) {
@@ -89,25 +97,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String login(LoginDto loginDto) {
-        // Validate required fields
-        if(loginDto.getEmail() == null || loginDto.getPassword() == null) {
-            throw new BusinessException(ExceptionEnum.MISSING_PARAMETERS);
-        }
-    
-        // Find user by email
-        Optional<UserEntity> userOptional = userRepository.findByEmail(loginDto.getEmail());
-
-        // Check if user exists and password matches
-        if(userOptional.isPresent()) {
-            UserEntity user = userOptional.get();
-            if(user.getPassword().equals(loginDto.getPassword())) {
-                return jwtService.setToken(user.getId());
-            }
-        }
-
-        throw new BusinessException(ExceptionEnum.INVALID_CREDENTIALS);
+    public UserDto getUserInfo(int id){
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND));
+        return(
+                UserDto.builder()
+                        .id(user.getId())
+                        .username(user.getUsername())
+                        .email(user.getEmail())
+                        .avatarUrl(user.getAvatarUrl())
+                        .build());
     }
+
     @Override
     public void changeUserName(int id, UserDto username) {
         UserEntity user = userRepository.findById(id)
@@ -145,6 +146,10 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
+    }
+
+    public void changeUserEmail(int id, String newEmail){
+
     }
 
     @Override
@@ -215,7 +220,7 @@ public class UserServiceImpl implements UserService {
 
     private void ensureDirectoryExists(File directory) {
         if (!directory.exists() && !directory.mkdirs()) {
-            throw new BusinessException(ExceptionEnum.UPLOAD_FILE_ERROR);
+            throw new BusinessException(ExceptionEnum.FILE_UPLOAD_ERROR);
         }
     }
 
@@ -233,7 +238,7 @@ public class UserServiceImpl implements UserService {
             return outputFilePath;
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BusinessException(ExceptionEnum.UPLOAD_FILE_ERROR);
+            throw new BusinessException(ExceptionEnum.FILE_UPLOAD_ERROR);
         }
     }
 }

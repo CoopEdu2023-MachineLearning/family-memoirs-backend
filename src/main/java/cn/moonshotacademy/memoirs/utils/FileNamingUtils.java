@@ -1,12 +1,9 @@
-
 package cn.moonshotacademy.memoirs.utils;
-
-import java.io.File;
-
-import org.springframework.web.multipart.MultipartFile;
 
 import cn.moonshotacademy.memoirs.exception.BusinessException;
 import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
+import java.io.File;
+import org.springframework.web.multipart.MultipartFile;
 
 public class FileNamingUtils {
 
@@ -27,11 +24,11 @@ public class FileNamingUtils {
         String extension = "";
         int dotIndex = originalFilename.lastIndexOf(".");
         if (dotIndex > 0) {
-            extension = originalFilename.substring(dotIndex);  // Get the file extension
+            extension = originalFilename.substring(dotIndex); // Get the file extension
         }
 
         String timestamp = String.valueOf(System.currentTimeMillis());
         String baseName = originalFilename.substring(0, dotIndex);
-        return baseName + "_" + timestamp + extension;  // Construct the new file name
+        return baseName + "_" + timestamp + extension; // Construct the new file name
     }
 }

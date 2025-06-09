@@ -1,11 +1,10 @@
 package cn.moonshotacademy.memoirs.service;
 
 import cn.moonshotacademy.memoirs.dto.AvatarDto;
-import cn.moonshotacademy.memoirs.dto.SignUpDto;
 import cn.moonshotacademy.memoirs.dto.LoginDto;
+import cn.moonshotacademy.memoirs.dto.SignUpDto;
 import cn.moonshotacademy.memoirs.dto.UserDto;
 import io.jsonwebtoken.JwtException;
-
 import java.io.IOException;
 
 public interface UserService {

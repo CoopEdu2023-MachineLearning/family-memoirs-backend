@@ -1,9 +1,8 @@
 package cn.moonshotacademy.memoirs.repository;
 
 import cn.moonshotacademy.memoirs.entity.AudioEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AudioRepository extends JpaRepository<AudioEntity, Long> {
     // Custom query methods can be defined here if needed

@@ -1,17 +1,12 @@
 package cn.moonshotacademy.memoirs.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import cn.moonshotacademy.memoirs.entity.ArticleEntity;
-import cn.moonshotacademy.memoirs.entity.ImageEntity;
 import cn.moonshotacademy.memoirs.entity.TagEntity;
-import cn.moonshotacademy.memoirs.entity.TellerEntity;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ArticleRepository extends JpaRepository<ArticleEntity, Integer> {

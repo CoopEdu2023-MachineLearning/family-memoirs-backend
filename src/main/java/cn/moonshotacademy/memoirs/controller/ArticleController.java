@@ -4,6 +4,7 @@ import cn.moonshotacademy.memoirs.dto.ArticleDto;
 import cn.moonshotacademy.memoirs.dto.ArticleListDto;
 import cn.moonshotacademy.memoirs.dto.ResponseDto;
 import cn.moonshotacademy.memoirs.service.ArticleService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,14 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/article")
 @RequiredArgsConstructor
 public class ArticleController {
-    @Autowired
-    private ArticleService articleService;
+    @Autowired private ArticleService articleService;
 
     @PostMapping("/upload")
     public ResponseDto<Void> uploadArticle(@RequestBody ArticleDto articleDto) {
@@ -38,6 +36,7 @@ public class ArticleController {
     public ResponseDto<List<ArticleListDto>> getArticles() {
         return ResponseDto.success(articleService.getAllArticles());
     }
+
     @GetMapping("/page")
     public ResponseDto<?> getArticlesPage(@RequestParam int page, @RequestParam int size) {
         return ResponseDto.success(articleService.getArticles(page, size));

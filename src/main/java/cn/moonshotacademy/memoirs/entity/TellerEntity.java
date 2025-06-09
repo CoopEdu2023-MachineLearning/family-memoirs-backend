@@ -1,11 +1,10 @@
 package cn.moonshotacademy.memoirs.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.HashSet;
 import java.util.Set;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "teller")
@@ -25,34 +24,34 @@ public class TellerEntity {
     @Column(name = "name_new", unique = true)
     private String nameNew;
 
-    @Column(name="name_state")
+    @Column(name = "name_state")
     private String nameState;
 
-    @Column(name="gender")
+    @Column(name = "gender")
     private String gender;
 
-    @Column(name="birthplace")
+    @Column(name = "birthplace")
     private String birthplace;
 
-    @Column(name="birthdate")
+    @Column(name = "birthdate")
     private String birthdate;
 
-    @Column(name="intro_old")
+    @Column(name = "intro_old")
     private String introOld;
 
-    @Column(name="intro_new")
+    @Column(name = "intro_new")
     private String introNew;
 
-    @Column(name="intro_state")
+    @Column(name = "intro_state")
     private String introState;
 
-    @Column(name="avatar_url_old")
+    @Column(name = "avatar_url_old")
     private String avatarUrlOld;
 
-    @Column(name="avatar_url_new")
+    @Column(name = "avatar_url_new")
     private String avatarUrlNew;
 
-    @Column(name="avatar_state")
+    @Column(name = "avatar_state")
     private String avatarState;
 
     @OneToMany(cascade = CascadeType.ALL)

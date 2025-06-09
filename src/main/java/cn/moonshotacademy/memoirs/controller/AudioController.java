@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/audio")
 public class AudioController {
-    @Autowired
-    private AudioService audioService;
+    @Autowired private AudioService audioService;
 
     @GetMapping("/{filename}")
     public ResponseEntity<Resource> getAudio(@PathVariable String filename) {
@@ -23,11 +22,11 @@ public class AudioController {
             Resource file = audioService.loadAudioAsResource(filename);
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType("audio/mpeg")) // 或其他适当的音频MIME类型
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"")
+                    .header(
+                            HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"")
                     .body(file);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
 }
-

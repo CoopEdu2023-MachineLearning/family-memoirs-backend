@@ -18,6 +18,7 @@ public enum ExceptionEnum {
     PASSWORD_TOO_WEAK(2007, "Password too weak"),
     EMAIL_NOT_FOUND(2008, "Email not found"),
     EMAIL_REQUEST_FAILED(2009, "Email request failed"),
+    INVALID_CREDENTIALS(2010, "Invalid credentials"),
 
     ARTICLE_NOT_FOUND(3001, "Article not found"),
 
@@ -36,12 +37,11 @@ public enum ExceptionEnum {
 
     NULL_FILENAME(9001, "File name empty"),
     TYPE_NOTALLOW(9002, "File type not supported"),
-    UPLOAD_FILE_ERROR(9003, "File upload failed"),
+    FILE_UPLOAD_ERROR(9003, "File upload failed"),
     NULL_FILELIST(9004, "Cannot upload NULL filelist"),
     FILE_NOT_FOUND(9005, "File not found"),
     TELLER_CREATE_FAILED(9006, "Teller create failed"),
     FAIL_UPLOAD(9007, "Fail to write to the Database"),
-
     ;
 
     private final int code;

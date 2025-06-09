@@ -51,8 +51,7 @@ public class UserEntity {
     @Column(name = "introduction_new")
     private String introductionNew;
 
-    @Column
-    private String name;
+    @Column private String name;
 
     @Column(name = "introduction_status")
     private String introductionStatus;

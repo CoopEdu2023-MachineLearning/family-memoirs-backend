@@ -1,9 +1,8 @@
 package cn.moonshotacademy.memoirs.service;
 
 import cn.moonshotacademy.memoirs.dto.TagDto;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public interface TagService {
