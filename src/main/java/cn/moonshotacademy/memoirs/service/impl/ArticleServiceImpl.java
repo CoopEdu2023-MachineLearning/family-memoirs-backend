@@ -20,8 +20,10 @@ import cn.moonshotacademy.memoirs.repository.TellerRepository;
 import cn.moonshotacademy.memoirs.repository.UserRepository;
 import cn.moonshotacademy.memoirs.service.ArticleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import cn.moonshotacademy.memoirs.dto.TagDto;
 import cn.moonshotacademy.memoirs.dto.WaterDto;
 import cn.moonshotacademy.memoirs.entity.ArticleEntity;
@@ -46,6 +48,7 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
     private final ImageRepository imageRepository;
+    private final AudioRepository audioRepository;
     private final TellerRepository tellerRepository;
 
     @Override
@@ -57,14 +60,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleDto getArticleById(int id) {
-        Optional<ArticleEntity> articleOptional = articleRepository.findById(id);
-        
-        if (articleOptional.isEmpty()) {
-            throw new BusinessException(ExceptionEnum.ARTICLE_NOT_FOUND);
-        }
-        
-        ArticleEntity article = articleOptional.get();
-        
+        ArticleEntity article = articleRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(ExceptionEnum.ARTICLE_NOT_FOUND));
+
         String username = userRepository.findById(article.getUserId())
                 .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND))
                 .getUsername();
@@ -74,9 +72,9 @@ public class ArticleServiceImpl implements ArticleService {
 
         TellerDto tellerDto = TellerDto.builder()
                 .id(teller.getId())
-                .name(teller.getName())
-                .intro(teller.getIntro())
-                .avatar_url(teller.getAvatar_url())
+                .nameOld(teller.getNameOld())
+                .introOld(teller.getIntroOld())
+                .avatarUrlOld(teller.getAvatarUrlOld())
                 .gender(teller.getGender())
                 .birthplace(teller.getBirthplace())
                 .birthdate(teller.getBirthdate())
@@ -88,6 +86,18 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(image -> ImageDto.builder()
                         .id(Math.toIntExact(image.getId()))
                         .imageUrl(image.getImageUrl())
+                        .build())
+                .toList();
+
+        List<AudioEntity> audios = audioRepository.findAllByArticleId((long) id);
+
+        List<AudioDto> audioDto = audios.stream()
+                .map(audio -> AudioDto.builder()
+                        .id(Math.toIntExact(audio.getId()))
+                        .audioUrl(audio.getAudioUrl())
+                        .name(audio.getName())
+                        .duration(audio.getDuration())
+                        .status(audio.getStatus())
                         .build())
                 .toList();
 
@@ -112,6 +122,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .text(article.getText())
                 .user(username)
                 .images(imageDto)
+                .audio(audioDto)
                 .tags(tagDto)
                 .description(article.getDescription())
                 .textStatus(article.getTextStatus())
@@ -122,18 +133,18 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<ArticleListDto> getAllArticles() {
         List<ArticleEntity> articles = articleRepository.findAll();
-        
+
         return articles.stream().map(article -> {
             // 获取文章的标签
             List<TagEntity> tags = articleRepository.findTagsByArticleId(article.getId());
-            
+
             List<TagDto> tagDtos = tags.stream()
                     .map(tag -> TagDto.builder()
                             .id(tag.getId())
                             .name(tag.getName())
                             .build())
                     .collect(Collectors.toList());
-            
+
             return ArticleListDto.builder()
                     .id(article.getId())
                     .location(article.getLocation() != null ? article.getLocation() : "")

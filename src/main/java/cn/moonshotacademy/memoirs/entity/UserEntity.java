@@ -14,50 +14,48 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UserEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "avatar_url")
-    private String avatar_url;
+    private String avatarUrl;
 
     @Column(name = "avatar_url_new")
-    private String avatar_url_new;
-    
+    private String avatarUrlNew;
+
     @Column(unique = true)
     private String email;
 
     @Column(name = "avatar_status")
-    private String avatar_status;
+    private String avatarStatus;
 
     @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "username_new", unique = true)
-    private String username_new;
+    private String usernameNew;
 
     @Column(name = "username_status")
-    private String username_status;
+    private String usernameStatus;
 
     @Column(name = "password", unique = true)
     private String password;
 
-
     @Column(name = "photo_address")
     private String photoAddress;
 
-    @Column
+    @Column(name = "introduction")
     private String introduction;
 
     @Column(name = "introduction_new")
-    private String introduction_new;
+    private String introductionNew;
 
     @Column
     private String name;
 
     @Column(name = "introduction_status")
-    private String introduction_status;
+    private String introductionStatus;
 
     public UserEntity(String email, String password, String username) {
         this.password = password;

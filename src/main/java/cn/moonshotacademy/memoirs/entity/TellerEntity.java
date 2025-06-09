@@ -4,32 +4,29 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "teller")
 @Data
 @NoArgsConstructor
 public class TellerEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name", unique = true)
-    private String name;
-
-    @Column(name = "name_new", unique = true)
-    private String name_new;
-
-    @Column(name="name_state")
-    private String name_state;
-
-    @Column(name="identity")
+    @Column(name = "identity")
     private String identity;
 
     @Column(name = "name_old", unique = true)
     private String nameOld;
+
+    @Column(name = "name_new", unique = true)
+    private String nameNew;
+
+    @Column(name="name_state")
+    private String nameState;
 
     @Column(name="gender")
     private String gender;
@@ -38,37 +35,27 @@ public class TellerEntity {
     private String birthplace;
 
     @Column(name="birthdate")
-    private Date birthdate;
+    private String birthdate;
 
-    @Column(name="intro")
-    private String intro;
+    @Column(name="intro_old")
+    private String introOld;
 
     @Column(name="intro_new")
-    private String intro_new;
+    private String introNew;
 
     @Column(name="intro_state")
-    private String intro_state;
-
-    @Column(name="avatar_url")
-    private String avatar_url;
-
-    @Column(name="avatar_url_new")
-    private String avatar_url_new;
-
-    @Column(name="avatar_state")
-    private String avatar_state;
+    private String introState;
 
     @Column(name="avatar_url_old")
     private String avatarUrlOld;
 
-    @Column(name = "intro_old")
-    private String introOld;
+    @Column(name="avatar_url_new")
+    private String avatarUrlNew;
 
-    @Column(name = "avatar_old")
-    private String avatarOld;
+    @Column(name="avatar_state")
+    private String avatarState;
 
-    @Column(name = "avatar_new")
-    private String avatarNew;
-
-    
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teller_id")
+    private Set<TellerEntity> teller = new HashSet<>();
 }

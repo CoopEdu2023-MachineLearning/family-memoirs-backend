@@ -13,4 +13,7 @@ import lombok.Setter;
 public class FileProperties {
     private String storageLocation = "files";
     private int maxUploadSize = 1024 * 1024 * 10;
+    private String userAvatarLocation;
+    private String storageUrlBase;
+    private String userAvatarUrlBase;
 }
