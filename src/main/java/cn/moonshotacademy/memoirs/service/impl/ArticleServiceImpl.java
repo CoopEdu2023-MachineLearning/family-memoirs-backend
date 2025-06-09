@@ -144,6 +144,12 @@ public class ArticleServiceImpl implements ArticleService {
                     .build();
         }).collect(Collectors.toList());
     }
+
+    @Override
+    public List<ArticleEntity> getAllArticleEntities() {
+        return articleRepository.findAllWithTags();
+    }
+
     @Override
     public Page<WaterDto> getArticles(int page, int size) {
         return articleRepository.findAll(PageRequest.of(page, size))

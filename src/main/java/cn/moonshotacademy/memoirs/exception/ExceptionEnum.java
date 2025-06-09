@@ -35,6 +35,7 @@ public enum ExceptionEnum {
     FILE_NOT_FOUND(3006, "File not found"),
     TELLER_CREATE_FAILED(2004, "Teller create failed"),
     FILE_UPLOAD_FILE(2005, "File upload failed"),
+    SEARCH_ERROR(2006, "Error when searching documents")
     ;
 
     private final int code;
