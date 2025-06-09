@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 public class FileProperties {
     private String storageLocation;
     private String userAvatarLocation;
-    private String artifactAvatarLocation;
 
     private String storageUrlBase;
     private String userAvatarUrlBase;
-    private String artifactAvatarUrlBase;
 }

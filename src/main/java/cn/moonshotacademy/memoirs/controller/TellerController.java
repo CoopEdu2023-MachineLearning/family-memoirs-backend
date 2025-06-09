@@ -1,6 +1,9 @@
 package cn.moonshotacademy.memoirs.controller;
 
 
+import cn.moonshotacademy.memoirs.dto.ResponseDto;
+import cn.moonshotacademy.memoirs.dto.TellerDto;
+import cn.moonshotacademy.memoirs.entity.TellerEntity;
 import cn.moonshotacademy.memoirs.service.TellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -18,11 +21,23 @@ public class TellerController {
     @Autowired
     private TellerService tellerService;
 
+    @GetMapping("/{tellerId}")
+    public ResponseDto<TellerEntity> getTellerById(@PathVariable Integer tellerId) {
+        return ResponseDto.success(tellerService.getTellerById(tellerId));
+    }
+
     @GetMapping("/avatar/{filename}")
     public ResponseEntity<Resource> getAvatar(@PathVariable String filename) {
         Resource file = tellerService.LoadAvatarAsResource(filename);
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(file);
+    }
+
+
+
+    @GetMapping("/{tellerId}/articles")
+    public ResponseDto<?> getArticlesByTellerId(@PathVariable Integer tellerId) {
+        return ResponseDto.success(tellerService.getArticlesByTellerId(tellerId));
     }
 }

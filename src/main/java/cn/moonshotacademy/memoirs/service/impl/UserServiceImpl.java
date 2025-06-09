@@ -39,8 +39,8 @@ public class UserServiceImpl implements UserService {
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
-                .avatarUrl(user.getAvatarUrl())
-                .build());
+                        .avatarUrl(user.getAvatarUrl())
+                        .build());
     }
 
     @Override
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changeUserAvatar(int id, AvatarDto requestData) throws IOException{
+    public void changeUserAvatar(int id, AvatarDto requestData) throws IOException {
         MultipartFile image = requestData.getImage();
         String originalFilename = getNewFileName(image);
         validateFileType(image);
@@ -100,14 +100,22 @@ public class UserServiceImpl implements UserService {
         UserEntity targetEntity = userRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND));
 
-        String filePath = fileProperties.getUserAvatarLocation() + File.separator + originalFilename;
-        Path destinationPath = Paths.get(filePath);
+        // 使用配置的文件路径
+        String avatarBaseDir = fileProperties.getUserAvatarLocation();
+        // 确保目录存在
+        Path storageDirectory = Paths.get(avatarBaseDir);
+        ensureDirectoryExists(storageDirectory.toFile());
 
-        ensureDirectoryExists(destinationPath.getParent().toFile());
+        // 完整的文件存储路径
+        Path destinationPath = storageDirectory.resolve(originalFilename);
         Files.write(destinationPath, image.getBytes());
 
-        String fileUrl = createThumbnailedImage(filePath, 200, 200, true);
-        targetEntity.setAvatarUrl(fileUrl);
+        // 创建缩略图
+        createThumbnailedImage(destinationPath.toString(), 200, 200, true);
+
+        // 修正URL路径格式 - 使用访问URL而非文件系统路径
+        String avatarUrl = fileProperties.getUserAvatarUrlBase() + "/" + originalFilename;
+        targetEntity.setAvatarUrl(avatarUrl);
         userRepository.save(targetEntity);
     }
 
@@ -162,10 +170,10 @@ public class UserServiceImpl implements UserService {
             Thumbnails.of(inputFilePath)
                     .size(width, height)  // 设置缩略图的大小
                     .toFile(outputFilePath);  // 指定输出文件
+            return outputFilePath;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            throw new BusinessException(ExceptionEnum.UPLOAD_FILE_ERROR);
         }
-        return outputFilePath;
     }
 }

@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "teller")
@@ -15,7 +16,7 @@ public class TellerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="identity")
+    @Column(name = "identity")
     private String identity;
 
     @Column(name = "name_old", unique = true)
@@ -53,4 +54,8 @@ public class TellerEntity {
 
     @Column(name="avatar_state")
     private String avatarState;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teller_id")
+    private Set<TellerEntity> teller = new HashSet<>();
 }
