@@ -17,3 +17,6 @@ spring:
 logging:
   file:
     name: logs/application.log
+upload:
+  userAvatarLocation: uploads/avatars/user
+  userAvatarUrlBase: /teller/avatar

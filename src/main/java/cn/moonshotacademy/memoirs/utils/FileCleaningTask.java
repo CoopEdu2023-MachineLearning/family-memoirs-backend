@@ -2,18 +2,16 @@ package cn.moonshotacademy.memoirs.utils;
 
 import cn.moonshotacademy.memoirs.entity.FileEntity;
 import cn.moonshotacademy.memoirs.repository.FileRepository;
+import java.io.File;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.util.List;
-
 @Component
 public class FileCleaningTask {
 
-    @Autowired
-    private FileRepository fileRepository;
+    @Autowired private FileRepository fileRepository;
 
     // 每1分钟执行一次
     @Scheduled(cron = "0 1 1 * * ?")

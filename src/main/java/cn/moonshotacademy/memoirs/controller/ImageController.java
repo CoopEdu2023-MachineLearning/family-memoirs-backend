@@ -14,14 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/images")
 public class ImageController {
 
-    @Autowired
-    private ImageService imageService;
+    @Autowired private ImageService imageService;
 
     @GetMapping("/{filename}")
     public ResponseEntity<Resource> getImage(@PathVariable String filename) {
         Resource file = imageService.loadImageAsResource(filename);
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(file);
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(file);
     }
 }

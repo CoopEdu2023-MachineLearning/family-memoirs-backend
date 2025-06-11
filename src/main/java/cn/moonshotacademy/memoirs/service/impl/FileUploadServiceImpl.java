@@ -39,7 +39,7 @@ public class FileUploadServiceImpl implements FileUploadService {
             return ResponseDto.success(fileUrl);
         } catch (IOException e) {
             // 返回错误响应
-            throw new BusinessException(ExceptionEnum.FILE_UPLOAD_FILE);
+            throw new BusinessException(ExceptionEnum.FILE_UPLOAD_ERROR);
         }
     }
 }

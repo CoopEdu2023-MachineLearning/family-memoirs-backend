@@ -3,13 +3,11 @@ package cn.moonshotacademy.memoirs.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmailDto {
-
-    private String email;
-
-    private String code;
+public class AvatarDto {
+    private MultipartFile image;
 }

@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,11 +13,11 @@ public class TellerDto {
     private Integer id;
     private String name;
     private String intro;
-    private String avatar_url;
+    private String avatarUrlNew;
     private String nameOld;
     private String gender;
     private String birthplace;
-    private Date birthdate;
+    private String birthdate;
     private String introOld;
     private String avatarUrlOld;
     private String identity;
