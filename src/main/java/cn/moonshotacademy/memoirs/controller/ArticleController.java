@@ -21,8 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class ArticleController {
     @Autowired private ArticleService articleService;
 
-    @PostMapping("/upload")
-    public ResponseDto<Void> uploadArticle(@RequestBody ArticleDto articleDto) {
+    @GetMapping("/create")
+    public ResponseDto<Integer> createArticle(ArticleDto articleDto) {
+        Integer result = articleService.createArticle(articleDto);
+        return ResponseDto.success(result);
+    }
+
+    @PostMapping("/{id}/upload")
+    public ResponseDto<Void> uploadArticle(@PathVariable int id, @RequestBody ArticleDto articleDto) {
         articleService.uploadArticle(articleDto);
         return ResponseDto.success();
     }
@@ -40,5 +46,17 @@ public class ArticleController {
     @GetMapping("/page")
     public ResponseDto<?> getArticlesPage(@RequestParam int page, @RequestParam int size) {
         return ResponseDto.success(articleService.getArticles(page, size));
+    }
+
+    @GetMapping("/verified_list")
+    public ResponseDto<List<Integer>> searchVerifiedArticle(ArticleDto articleDto) {
+        List<Integer> result = articleService.searchVerifiedArticle(articleDto);
+        return ResponseDto.success(result);
+    }
+
+    @GetMapping("/unverified_list")
+    public ResponseDto<List<Integer>> searchUnverifiedArticle(ArticleDto articleDto) {
+        List<Integer> result = articleService.searchUnverifiedArticle(articleDto);
+        return ResponseDto.success(result);
     }
 }

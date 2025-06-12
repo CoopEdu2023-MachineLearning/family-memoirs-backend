@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
         try {
             emailService.verifyCode(emailDto);
         } catch (BusinessException e) {
-            throw new BusinessException(ExceptionEnum.EMAIL_REQEUST_FAILED);
+            throw new BusinessException(ExceptionEnum.EMAIL_REQUEST_FAILED);
         }
         //Signup success
         user.setPassword(signUpDto.getPassword());

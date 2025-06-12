@@ -41,74 +41,76 @@ public class ArticleServiceImpl implements ArticleService {
     private final TellerRepository tellerRepository;
 
     @Override
-    public void uploadArticle(ArticleDto articleDto) {
+    public int createArticle(ArticleDto articleDto) throws BusinessException {
+        ArticleEntity articleEntity = new ArticleEntity();
+        articleRepository.save(articleEntity);
+        System.out.println(articleEntity.getId());
+        return articleEntity.getId();
+    }
+
+    @Override
+    public void uploadArticle(ArticleDto articleDto) throws BusinessException {
         ArticleEntity articleEntity = new ArticleEntity();
         BeanUtils.copyProperties(articleDto, articleEntity); // copyProperties(source, target)
+
+        articleEntity.setDescriptionStatus("unverified");
+        articleEntity.setTextStatus("unverified");
         articleRepository.save(articleEntity);
     }
 
     @Override
     public ArticleDto getArticleById(int id) {
-        ArticleEntity article =
-                articleRepository
-                        .findById(id)
-                        .orElseThrow(() -> new BusinessException(ExceptionEnum.ARTICLE_NOT_FOUND));
+        ArticleEntity article = articleRepository
+                .findById(id)
+                .orElseThrow(() -> new BusinessException(ExceptionEnum.ARTICLE_NOT_FOUND));
 
-        String username =
-                userRepository
-                        .findById(article.getUserId())
-                        .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND))
-                        .getUsername();
+        String username = userRepository
+                .findById(article.getUserId())
+                .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND))
+                .getUsername();
 
-        TellerEntity teller =
-                tellerRepository
-                        .findById(article.getTellerId())
-                        .orElseThrow(() -> new BusinessException(ExceptionEnum.TELLER_NOT_FOUND));
+        TellerEntity teller = tellerRepository
+                .findById(article.getTellerId())
+                .orElseThrow(() -> new BusinessException(ExceptionEnum.TELLER_NOT_FOUND));
 
-        TellerDto tellerDto =
-                TellerDto.builder()
-                        .id(teller.getId())
-                        .nameOld(teller.getNameOld())
-                        .introOld(teller.getIntroOld())
-                        .avatarUrlOld(teller.getAvatarUrlOld())
-                        .gender(teller.getGender())
-                        .birthplace(teller.getBirthplace())
-                        .birthdate(teller.getBirthdate())
-                        .build();
+        TellerDto tellerDto = TellerDto.builder()
+                .id(teller.getId())
+                .nameOld(teller.getNameOld())
+                .introOld(teller.getIntroOld())
+                .avatarUrlOld(teller.getAvatarUrlOld())
+                .gender(teller.getGender())
+                .birthplace(teller.getBirthplace())
+                .birthdate(teller.getBirthdate())
+                .build();
 
         List<ImageEntity> images = imageRepository.findAllByArticleId((long) article.getId());
 
-        List<ImageDto> imageDto =
-                images.stream()
-                        .map(
-                                image ->
-                                        ImageDto.builder()
-                                                .id(Math.toIntExact(image.getId()))
-                                                .imageUrl(image.getImageUrl())
-                                                .build())
-                        .toList();
+        List<ImageDto> imageDto = images.stream()
+                .map(
+                        image -> ImageDto.builder()
+                                .id(Math.toIntExact(image.getId()))
+                                .imageUrl(image.getImageUrl())
+                                .build())
+                .toList();
 
         List<AudioEntity> audios = audioRepository.findAllByArticleId((long) id);
 
-        List<AudioDto> audioDto =
-                audios.stream()
-                        .map(
-                                audio ->
-                                        AudioDto.builder()
-                                                .id(Math.toIntExact(audio.getId()))
-                                                .audioUrl(audio.getAudioUrl())
-                                                .name(audio.getName())
-                                                .duration(audio.getDuration())
-                                                .status(audio.getStatus())
-                                                .build())
-                        .toList();
+        List<AudioDto> audioDto = audios.stream()
+                .map(
+                        audio -> AudioDto.builder()
+                                .id(Math.toIntExact(audio.getId()))
+                                .audioUrl(audio.getAudioUrl())
+                                .name(audio.getName())
+                                .duration(audio.getDuration())
+                                .status(audio.getStatus())
+                                .build())
+                .toList();
 
         List<TagEntity> tags = articleRepository.findTagsByArticleId(article.getId());
 
-        List<TagDto> tagDto =
-                tags.stream()
-                        .map(tag -> TagDto.builder().id(tag.getId()).name(tag.getName()).build())
-                        .toList();
+        List<TagDto> tagDto = tags.stream()
+                .map(tag -> TagDto.builder().id(tag.getId()).name(tag.getName()).build())
+                .toList();
 
         return ArticleDto.builder()
                 .id(article.getId())
@@ -140,10 +142,9 @@ public class ArticleServiceImpl implements ArticleService {
                             // 获取文章的标签
                             List<TagEntity> tags = articleRepository.findTagsByArticleId(article.getId());
 
-                            List<TagDto> tagDtos =
-                                    tags.stream()
-                                            .map(tag -> TagDto.builder().id(tag.getId()).name(tag.getName()).build())
-                                            .collect(Collectors.toList());
+                            List<TagDto> tagDtos = tags.stream()
+                                    .map(tag -> TagDto.builder().id(tag.getId()).name(tag.getName()).build())
+                                    .collect(Collectors.toList());
 
                             return ArticleListDto.builder()
                                     .id(article.getId())
@@ -195,4 +196,20 @@ public class ArticleServiceImpl implements ArticleService {
     private TagDto toTagDto(TagEntity tag) {
         return TagDto.builder().id(tag.getId()).name(tag.getName()).build();
     }
+
+    public List<Integer> searchUnverifiedArticle(ArticleDto articleDto) throws BusinessException {
+        List<Integer> unverifiedIds = articleRepository.findIdsByStatus("unverified");
+        if (unverifiedIds.isEmpty())
+            throw new BusinessException(ExceptionEnum.NO_UNVERIFIED_ARTICLE);
+        return unverifiedIds;
+    }
+
+    @Override
+    public List<Integer> searchVerifiedArticle(ArticleDto articleDto) throws BusinessException {
+        List<Integer> verifiedIds = articleRepository.findIdsByStatus("verified");
+        if (verifiedIds.isEmpty())
+            throw new BusinessException(ExceptionEnum.NO_VERIFIED_ARTICLE);
+        return verifiedIds;
+    }
+
 }

@@ -21,32 +21,37 @@ public enum ExceptionEnum {
     INVALID_CREDENTIALS(2010, "Invalid credentials"),
     INVALID_INVITATION_CODE(2011, "Invalid invitation code"),
     INVALID_VERIFICATION_CODE(2012, "Invalid verification code"),
+    INVALID_USER_ID(2013, "无效的用户ID"),
 
     ARTICLE_NOT_FOUND(3001, "Article not found"),
 
     IMAGE_NOT_FOUND(4001, "Image not found"),
     IMAGE_LOAD_FAILED(4002, "Image load failed"),
 
+    NO_VERIFIED_ARTICLE(4003, "No verified article"),
+    NO_UNVERIFIED_ARTICLE(4004, "No unverified article"),
+
     AUDIO_NOT_FOUND(5001, "Audio not found"),
     AUDIO_LOAD_FAILED(5002, "Audio load failed"),
 
     TELLER_NOT_FOUND(6001, "Teller not found"),
+    TELLER_CREATE_FAILED(6002, "Teller create failed"),
+    INVALID_RELATION(6003, "无效的亲属关系"),
+    MUST_CREATE_SELF_FIRST(6004, "必须先创建‘我自己’的讲述者"),
 
     TAG_NOT_FOUND(7001, "Tag not found"),
-    EMAIL_REQEUST_FAILED(3002, "Email request failed"),
-    NULL_FILENAME(4001, "File name cannot be null"),
-    FAIL_UPLOAD(4003, "Fail to write to the Database"),
-    NULL_FILELIST(4004, "Cannot upload NULL filelist"),
-    TYPE_NOTALLOW(4005, "This file type is not allowed"),
-    FILE_NOT_FOUND(3006, "File not found"),
-    TELLER_CREATE_FAILED(2004, "Teller create failed"),
-    FILE_UPLOAD_FILE(2005, "File upload failed"),
-    INVALID_USER_ID(2006, "无效的用户ID"),
-    INVALID_RELATION(2007, "无效的亲属关系"),
-    MUST_CREATE_SELF_FIRST(2008, "必须先创建‘我自己’的讲述者"),
+
     AVATAR_NOT_FOUND(8001, "Avatar not found"),
     AVATAR_LOAD_FAILED(8002, "Avatar load failed"),
-    FILE_UPLOAD_ERROR(9003, "File upload failed");
+
+    NULL_FILENAME(9001, "File name cannot be null"),
+    FILE_UPLOAD_ERROR(9002, "File upload failed"),
+    FAIL_UPLOAD(9003, "Fail to write to the Database"),
+    NULL_FILELIST(9004, "Cannot upload NULL filelist"),
+    TYPE_NOTALLOW(9005, "This file type is not allowed"),
+    FILE_NOT_FOUND(9006, "File not found"),
+    EMPTY_FILE(9007, "Empty file"),
+    ;
 
     private final int code;
     private final String message;

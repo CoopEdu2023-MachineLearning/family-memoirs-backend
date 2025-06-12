@@ -3,6 +3,7 @@ package cn.moonshotacademy.memoirs.controller;
 import cn.moonshotacademy.memoirs.dto.DeleteFileDto;
 import cn.moonshotacademy.memoirs.dto.MultipleFilesDto;
 import cn.moonshotacademy.memoirs.dto.ResponseDto;
+import cn.moonshotacademy.memoirs.dto.UploadDto;
 import cn.moonshotacademy.memoirs.exception.BusinessException;
 import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
 import cn.moonshotacademy.memoirs.service.FileService;
@@ -39,5 +40,13 @@ public class FileController {
     public ResponseDto<Void> deleteFiles(@RequestBody DeleteFileDto deleteFileDto) {
         fileService.deleteFile(deleteFileDto.getFileId());
         return ResponseDto.success();
+    }
+
+    @PostMapping("/upload")
+    public ResponseDto<Integer> uploadFile(UploadDto uploadDto) {
+        if (uploadDto.getFile().isEmpty()) {
+            throw new BusinessException(ExceptionEnum.EMPTY_FILE);
+        }
+        return ResponseDto.success(fileService.upload(uploadDto));
     }
 }

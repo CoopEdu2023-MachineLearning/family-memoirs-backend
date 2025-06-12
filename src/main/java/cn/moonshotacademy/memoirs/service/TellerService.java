@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface TellerService {
     ResponseDto<TellerDto> createTeller(TellerDto tellerDto);
+
     List<TellerEntity> getTellersByUserId(Integer userId);
 
     TellerEntity getTellerById(Integer tellerId);
@@ -18,4 +19,8 @@ public interface TellerService {
     Resource LoadAvatarAsResource(String filename);
 
     List<ArticleDto> getArticlesByTellerId(Integer tellerId);
+
+    public TellerEntity[] getList();
+
+    public TellerEntity findTeller(String name);
 }

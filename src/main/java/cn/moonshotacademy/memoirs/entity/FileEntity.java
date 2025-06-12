@@ -25,6 +25,12 @@ public class FileEntity {
     private boolean isMain = false;
     private boolean isDeleted = false;
 
+    public FileEntity(String name, String url, String contentType) {
+        this.name = name;
+        this.url = url;
+        this.type = contentType;
+    }
+
     public FileEntity(String name, String url) {
         this.name = name;
         this.url = url;

@@ -49,4 +49,17 @@ public class TellerController {
         List<TellerEntity> tellers = tellerService.getTellersByUserId(userId);
         return ResponseDto.success(tellers);
     }
+
+    @PostMapping("/list")
+    public ResponseDto<TellerEntity[]> getList() {
+        TellerEntity[] teller = tellerService.getList();
+        return ResponseDto.success(teller);
+    }
+
+    @PostMapping("/find")
+    public ResponseDto<TellerEntity> findLearner(@RequestParam String name) {
+        TellerEntity teller = tellerService.findTeller(name);
+        return ResponseDto.success(teller);
+    }
+
 }

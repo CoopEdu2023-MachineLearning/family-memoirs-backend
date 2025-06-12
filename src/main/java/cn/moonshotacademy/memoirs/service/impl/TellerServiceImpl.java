@@ -30,6 +30,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+
+
 @Service
 @RequiredArgsConstructor
 public class TellerServiceImpl implements TellerService {
@@ -37,6 +39,7 @@ public class TellerServiceImpl implements TellerService {
     private final ArticleRepository articleRepository;
     private final ImageRepository imageRepository;
     private final TellerRepository tellerRepository;
+    private final RelationRepository relationRepository;
 
     @Override
     public TellerEntity getTellerById(Integer tellerId) {
@@ -113,9 +116,6 @@ public class TellerServiceImpl implements TellerService {
                 .collect(Collectors.toList());
     }
 
-    @Autowired
-    private RelationRepository relationRepository;
-
     @Override
     public ResponseDto<TellerDto> createTeller(TellerDto tellerDto) {
         try {
@@ -177,5 +177,24 @@ public class TellerServiceImpl implements TellerService {
             throw new BusinessException(ExceptionEnum.INVALID_USER_ID);
         }
         return tellerRepository.findByUserId(userId);
+    }
+
+    @Override
+    public TellerEntity[] getList() {
+        TellerEntity[] tellers = tellerRepository.findAll().toArray(new TellerEntity[0]);
+        if (tellers == null || tellers.length == 0) {
+            throw new BusinessException(ExceptionEnum.USER_NOT_FOUND);
+        }
+        return tellers;
+    }
+
+    @Override
+    public TellerEntity findTeller(String name) {
+        TellerEntity teller = tellerRepository.findByNameOld(name)
+                .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND));
+        if (teller == null) {
+            throw new BusinessException(ExceptionEnum.USER_NOT_FOUND);
+        }
+        return teller;
     }
 }

@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleDto {
-    private int id;
+
+    private Integer id;
+
     private String location;
     private String text;
     private TellerDto teller;
