@@ -19,13 +19,13 @@ public class EmailController {
     @Autowired private EmailService emailService;
 
     @GetMapping("/getCode")
-    public ResponseDto<Void> getCode(@RequestBody EmailDto emailDto) {
+    public ResponseDto<Void> getCode(EmailDto emailDto) {
         emailService.getCode(emailDto);
         return ResponseDto.success();
     }
 
     @PostMapping("/verifyCode")
-    public ResponseDto<Void> verifyCode(@RequestBody EmailDto emailDto) {
+    public ResponseDto<Void> verifyCode(EmailDto emailDto) {
         emailService.verifyCode(emailDto);
         return ResponseDto.success();
     }
