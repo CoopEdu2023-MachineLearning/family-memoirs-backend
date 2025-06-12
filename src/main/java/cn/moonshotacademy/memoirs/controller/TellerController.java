@@ -34,8 +34,6 @@ public class TellerController {
                 .body(file);
     }
 
-
-
     @GetMapping("/{tellerId}/articles")
     public ResponseDto<?> getArticlesByTellerId(@PathVariable Integer tellerId) {
         return ResponseDto.success(tellerService.getArticlesByTellerId(tellerId));
