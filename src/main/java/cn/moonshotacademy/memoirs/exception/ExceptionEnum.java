@@ -51,6 +51,7 @@ public enum ExceptionEnum {
     TYPE_NOTALLOW(9005, "This file type is not allowed"),
     FILE_NOT_FOUND(9006, "File not found"),
     EMPTY_FILE(9007, "Empty file"),
+    SEARCH_ERROR(9008, "Error when searching documents")
     ;
 
     private final int code;
