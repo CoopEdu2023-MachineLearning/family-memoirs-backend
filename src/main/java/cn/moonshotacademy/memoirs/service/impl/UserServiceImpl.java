@@ -263,4 +263,9 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(ExceptionEnum.FILE_UPLOAD_ERROR);
         }
     }
+
+    @Override
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
+    }
 }

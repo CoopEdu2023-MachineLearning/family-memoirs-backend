@@ -174,9 +174,9 @@ public class TellerServiceImpl implements TellerService {
     }
 
     @Override
-    public TellerEntity[] getList() {
-        TellerEntity[] tellers = tellerRepository.findAll().toArray(new TellerEntity[0]);
-        if (tellers == null || tellers.length == 0) {
+    public List<TellerEntity> getList() {
+        List<TellerEntity> tellers = tellerRepository.findAll();
+        if (tellers == null || tellers.isEmpty()) {
             throw new BusinessException(ExceptionEnum.USER_NOT_FOUND);
         }
         return tellers;
