@@ -7,8 +7,12 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface TellerRepository extends JpaRepository<TellerEntity, Integer> {
     TellerEntity findById(int id);
     List<TellerEntity> findByUserId(Integer userId);
     Optional<TellerEntity> findByNameOld(String nameOld);
+
+    List<TellerEntity> findAllByUserId(String userId);
 }
