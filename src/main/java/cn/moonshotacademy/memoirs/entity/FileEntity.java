@@ -12,15 +12,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Entity
-@Table(name = "files")
+@Table(name = "file")
 @AllArgsConstructor
 @Data
 public class FileEntity {
 
-    public FileEntity(String name, String url, String contentType) {
+    public FileEntity(String name, String url, String contentType, String delete) {
         fileName = name;
         fileUrl = url;
         fileType = contentType;
+        isDeleted = delete;
     }
 
     @Id
@@ -35,6 +36,9 @@ public class FileEntity {
 
     @Column(name = "file_type")
     private String fileType;
+
+    @Column(name = "is_deleted")
+    private String isDeleted;
 
     @ManyToOne
     @JoinColumn(name = "article_id")

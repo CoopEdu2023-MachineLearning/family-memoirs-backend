@@ -29,7 +29,7 @@ public class FileServiceImpl implements FileService {
     private String location;
 
     @Override
-    public int upload(UploadDto uploadDto) {
+    public FileEntity upload(UploadDto uploadDto) {
 
         MultipartFile file = uploadDto.getFile();
 
@@ -42,10 +42,8 @@ public class FileServiceImpl implements FileService {
         } catch (IOException e) {
             throw new BusinessException(ExceptionEnum.UPLOAD_FILE_ERROR);
         }
-
-        FileEntity fileEntity = new FileEntity(name, url.toString(), file.getContentType());
+        FileEntity fileEntity = new FileEntity(name, url.toString(), file.getContentType(), "f");
         fileRepository.save(fileEntity);
-
-        return fileEntity.getId();
+        return fileEntity;
     }
 }
