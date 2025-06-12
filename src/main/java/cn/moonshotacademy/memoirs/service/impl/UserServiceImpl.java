@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserInfo(int id){
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND));
-        List<TellerEntity> teller = tellerRepository.findAllByUserId(String.valueOf(user.getId()));
+        List<TellerEntity> teller = tellerRepository.findAllByUserId(user.getId());
 
         List<TellerDto> tellerDto = teller.stream()
                 .map(tellers -> TellerDto.builder()

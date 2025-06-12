@@ -12,5 +12,5 @@ public interface TellerRepository extends JpaRepository<TellerEntity, Integer> {
 
     Optional<TellerEntity> findByNameOld(String nameOld);
 
-    List<TellerEntity> findAllByUserId(String userId);
+    List<TellerEntity> findAllByUserId(Integer userId);
 }
