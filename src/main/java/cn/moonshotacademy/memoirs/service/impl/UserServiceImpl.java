@@ -34,8 +34,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.stream.Collectors.toList;
-
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -44,8 +42,8 @@ public class UserServiceImpl implements UserService {
     private final FileProperties fileProperties;
     private final TellerRepository tellerRepository;
     private static final List<String> ALLOWED_FILE_TYPES = Arrays.asList("jpg", "jpeg", "png");
-    private JwtService jwtService;
-    private EmailService emailService;
+    private final JwtService jwtService;
+    private final EmailService emailService;
 
     @Override
     public ResponseDto<Void> signup(SignUpDto signUpDto) {
