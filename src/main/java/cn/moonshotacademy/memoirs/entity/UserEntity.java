@@ -6,17 +6,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "users")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "users")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column(name = "avatar_url")
     private String avatarUrl;
@@ -24,7 +26,7 @@ public class UserEntity {
     @Column(name = "avatar_url_new")
     private String avatarUrlNew;
 
-    @Column(unique = true)
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "avatar_status")

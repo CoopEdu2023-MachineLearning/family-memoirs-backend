@@ -19,6 +19,8 @@ public enum ExceptionEnum {
     EMAIL_NOT_FOUND(2008, "Email not found"),
     EMAIL_REQUEST_FAILED(2009, "Email request failed"),
     INVALID_CREDENTIALS(2010, "Invalid credentials"),
+    INVALID_INVITATION_CODE(2011, "Invalid invitation code"),
+    INVALID_VERIFICATION_CODE(2012, "Invalid verification code"),
 
     ARTICLE_NOT_FOUND(3001, "Article not found"),
 

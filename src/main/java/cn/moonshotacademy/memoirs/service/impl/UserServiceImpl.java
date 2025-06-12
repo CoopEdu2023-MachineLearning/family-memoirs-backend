@@ -2,21 +2,24 @@ package cn.moonshotacademy.memoirs.service.impl;
 
 import cn.moonshotacademy.memoirs.config.FileProperties;
 import cn.moonshotacademy.memoirs.dto.AvatarDto;
+import cn.moonshotacademy.memoirs.dto.EmailDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.moonshotacademy.memoirs.dto.UserDto;
 import cn.moonshotacademy.memoirs.dto.LoginDto;
+import cn.moonshotacademy.memoirs.dto.ResponseDto;
 import cn.moonshotacademy.memoirs.dto.SignUpDto;
 import cn.moonshotacademy.memoirs.entity.UserEntity;
 import cn.moonshotacademy.memoirs.exception.BusinessException;
 import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
 import cn.moonshotacademy.memoirs.repository.UserRepository;
+import cn.moonshotacademy.memoirs.service.EmailService;
 import cn.moonshotacademy.memoirs.service.JwtService;
 import cn.moonshotacademy.memoirs.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -37,30 +40,35 @@ public class UserServiceImpl implements UserService {
     private final FileProperties fileProperties;
     private static final List<String> ALLOWED_FILE_TYPES = Arrays.asList("jpg", "jpeg", "png");
     private JwtService jwtService;
-
+    private EmailService emailService;
+    
     @Override
-    public String signup(SignUpDto signUpDto) {
-        // Validate required fields
+    public ResponseDto<Void> signup(SignUpDto signUpDto) {
+        String code = "12345678";
+        UserEntity user = new UserEntity();
         if(signUpDto.getEmail() == null ||
                 signUpDto.getPassword() == null ||
-                signUpDto.getUsername() == null) {
+                signUpDto.getVerificationCode() == null ||
+                signUpDto.getInvitationCode() == null){
             throw new BusinessException(ExceptionEnum.MISSING_PARAMETERS);
         }
-
-        // Check if username already exists
-        if(userRepository.existsByUsername(signUpDto.getUsername())) {
-            throw new BusinessException(ExceptionEnum.USERNAME_ALREADY_EXISTS);
+        if(!(signUpDto.getVerificationCode().equals(code))) {
+            throw new BusinessException(ExceptionEnum.INVALID_INVITATION_CODE);
         }
-
-        UserEntity user = new UserEntity();
-        user.setUsername(signUpDto.getUsername());
+        EmailDto emailDto = new EmailDto();
+        // Verify
+        emailDto.setCode(signUpDto.getVerificationCode());
+        emailDto.setEmail(signUpDto.getEmail());
+        try {
+            emailService.verifyCode(emailDto);
+        } catch (BusinessException e) {
+            throw new BusinessException(ExceptionEnum.EMAIL_REQEUST_FAILED);
+        }
+        //Signup success
         user.setPassword(signUpDto.getPassword());
         user.setEmail(signUpDto.getEmail());
-
-        UserEntity savedUser = userRepository.save(user);
-
-        // Generate JWT token
-        return jwtService.setToken(savedUser.getId());
+        userRepository.save(user);
+        return ResponseDto.success();
     }
 
     @Override
