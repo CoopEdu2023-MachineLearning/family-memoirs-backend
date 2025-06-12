@@ -4,7 +4,6 @@ import cn.moonshotacademy.memoirs.config.FileProperties;
 import cn.moonshotacademy.memoirs.dto.AvatarDto;
 import cn.moonshotacademy.memoirs.dto.EmailDto;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.moonshotacademy.memoirs.dto.UserDto;
