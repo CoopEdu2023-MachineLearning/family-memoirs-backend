@@ -24,5 +24,4 @@ public interface UserService {
     public void changeUserPassword(int id, String oldPassword, String newPassword);
 
     public void changeUserAvatar(int id, AvatarDto requestData) throws IOException;
-
 }

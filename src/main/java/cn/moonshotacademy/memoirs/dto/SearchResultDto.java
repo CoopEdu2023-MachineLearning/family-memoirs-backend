@@ -1,9 +1,8 @@
 package cn.moonshotacademy.memoirs.dto;
 
-import org.typesense.model.SearchResult;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.typesense.model.SearchResult;
 
 @Data
 @AllArgsConstructor

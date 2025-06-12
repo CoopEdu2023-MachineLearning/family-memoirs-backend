@@ -1,6 +1,8 @@
 package cn.moonshotacademy.memoirs.entity;
+
 import jakarta.persistence.*;
 import lombok.Data;
+
 @Entity
 @Data
 @Table(name = "relations")

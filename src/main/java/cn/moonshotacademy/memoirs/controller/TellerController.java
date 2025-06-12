@@ -4,6 +4,7 @@ import cn.moonshotacademy.memoirs.dto.ResponseDto;
 import cn.moonshotacademy.memoirs.dto.TellerDto;
 import cn.moonshotacademy.memoirs.entity.TellerEntity;
 import cn.moonshotacademy.memoirs.service.TellerService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
 
 @RestController
 @RequestMapping("/teller")
@@ -44,7 +44,7 @@ public class TellerController {
         return tellerService.createTeller(tellerDto);
     }
 
-     @GetMapping
+    @GetMapping
     public ResponseDto<List<TellerEntity>> getTellersByUserId(@RequestParam Integer userId) {
         List<TellerEntity> tellers = tellerService.getTellersByUserId(userId);
         return ResponseDto.success(tellers);
@@ -61,5 +61,4 @@ public class TellerController {
         TellerEntity teller = tellerService.findTeller(name);
         return ResponseDto.success(teller);
     }
-
 }

@@ -1,11 +1,15 @@
 package cn.moonshotacademy.memoirs.service.impl;
 
+import cn.moonshotacademy.memoirs.entity.ArticleEntity;
+import cn.moonshotacademy.memoirs.exception.BusinessException;
+import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
+import cn.moonshotacademy.memoirs.service.SearchService;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.typesense.api.Client;
 import org.typesense.api.Configuration;
@@ -24,12 +28,6 @@ import org.typesense.model.SearchParameters;
 import org.typesense.model.SearchResult;
 import org.typesense.resources.Node;
 
-import cn.moonshotacademy.memoirs.entity.ArticleEntity;
-import cn.moonshotacademy.memoirs.exception.BusinessException;
-import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
-import cn.moonshotacademy.memoirs.service.SearchService;
-import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
 @Service
 public class SearchServiceImpl implements SearchService {
@@ -47,33 +45,44 @@ public class SearchServiceImpl implements SearchService {
                         "http", // For Typesense Cloud use https
                         "localhost", // For Typesense Cloud use xxx.a1.typesense.net
                         "8108" // For Typesense Cloud use 443
-                ));
+                        ));
 
         configuration = new Configuration(nodes, Duration.ofSeconds(2), "xyz");
         importConfiguration = new Configuration(nodes, Duration.ofMinutes(5), "xyz");
         client = new Client(this.configuration);
         importClient = new Client(this.importConfiguration);
-        storySchema = new CollectionSchema().name("stories")
-                .addFieldsItem(new Field().name("story").type(FieldTypes.STRING).locale("zh"))
-                .addFieldsItem(new Field().name("tags").type(FieldTypes.STRING_ARRAY).locale("zh").facet(true))
-                .addFieldsItem(new Field().name("articleId").type(FieldTypes.INT32).index(false))
-                .addFieldsItem(new Field().name("embedding").type(FieldTypes.FLOAT_ARRAY)
-                        .embed(new FieldEmbed().from(List.of("story"))
-                                .modelConfig(new FieldEmbedModelConfig()
-                                        .modelName("ts/multilingual-e5-small")
-                                        .indexingPrefix("passage: ")
-                                        .queryPrefix("query: "))));
+        storySchema =
+                new CollectionSchema()
+                        .name("stories")
+                        .addFieldsItem(new Field().name("story").type(FieldTypes.STRING).locale("zh"))
+                        .addFieldsItem(
+                                new Field().name("tags").type(FieldTypes.STRING_ARRAY).locale("zh").facet(true))
+                        .addFieldsItem(new Field().name("articleId").type(FieldTypes.INT32).index(false))
+                        .addFieldsItem(
+                                new Field()
+                                        .name("embedding")
+                                        .type(FieldTypes.FLOAT_ARRAY)
+                                        .embed(
+                                                new FieldEmbed()
+                                                        .from(List.of("story"))
+                                                        .modelConfig(
+                                                                new FieldEmbedModelConfig()
+                                                                        .modelName("ts/multilingual-e5-small")
+                                                                        .indexingPrefix("passage: ")
+                                                                        .queryPrefix("query: "))));
     }
 
     @Override
-    public SearchResult searchStories(String q, Optional<Integer> snippetLength, Optional<Boolean> preciseSearch) {
+    public SearchResult searchStories(
+            String q, Optional<Integer> snippetLength, Optional<Boolean> preciseSearch) {
         boolean isPrecise = preciseSearch.isPresent() && preciseSearch.get();
         String queryBy = isPrecise ? "story,tags" : "story,tags,embedding";
-        SearchParameters searchParameters = new SearchParameters()
-                .q(q)
-                .queryBy(queryBy)
-                .sortBy("_text_match:desc")
-                .stopwords("stopword_set1");
+        SearchParameters searchParameters =
+                new SearchParameters()
+                        .q(q)
+                        .queryBy(queryBy)
+                        .sortBy("_text_match:desc")
+                        .stopwords("stopword_set1");
         if (snippetLength.isPresent()) {
             searchParameters.setHighlightAffixNumTokens(snippetLength.get());
         } else {
@@ -89,11 +98,8 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public SearchResult searchTeller(String q) {
-        SearchParameters searchParameters = new SearchParameters()
-                .q(q)
-                .queryBy("name")
-                .sortBy("_text_match:desc")
-                .infix("always");
+        SearchParameters searchParameters =
+                new SearchParameters().q(q).queryBy("name").sortBy("_text_match:desc").infix("always");
         try {
             return client.collections("narrator").documents().search(searchParameters);
         } catch (Exception e) {
@@ -104,11 +110,8 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public SearchResult searchUser(String q) {
-        SearchParameters searchParameters = new SearchParameters()
-                .q(q)
-                .queryBy("name")
-                .sortBy("_text_match:desc")
-                .infix("always");
+        SearchParameters searchParameters =
+                new SearchParameters().q(q).queryBy("name").sortBy("_text_match:desc").infix("always");
         try {
             return client.collections("user").documents().search(searchParameters);
         } catch (Exception e) {
@@ -141,24 +144,20 @@ public class SearchServiceImpl implements SearchService {
         for (ArticleEntity articleEntity : stories) {
             HashMap<String, Object> document = new HashMap<>();
             document.put("story", articleEntity.getText());
-            document.put("tags", articleEntity
-                    .getTagList()
-                    .stream()
-                    .map(tag -> tag.getName())
-                    .toArray());
+            document.put("tags", articleEntity.getTagList().stream().map(tag -> tag.getName()).toArray());
             document.put("articleId", articleEntity.getId());
 
             documentList.add(document);
         }
 
-        ImportDocumentsParameters importDocumentsParameters = new ImportDocumentsParameters()
-                .action(IndexAction.CREATE);
+        ImportDocumentsParameters importDocumentsParameters =
+                new ImportDocumentsParameters().action(IndexAction.CREATE);
 
         importClient.collections(newName).documents().import_(documentList, importDocumentsParameters);
 
-        CollectionAliasSchema collectionAliasSchema = new CollectionAliasSchema().collectionName(newName);
+        CollectionAliasSchema collectionAliasSchema =
+                new CollectionAliasSchema().collectionName(newName);
 
         client.aliases().upsert("stories", collectionAliasSchema);
     }
-
 }

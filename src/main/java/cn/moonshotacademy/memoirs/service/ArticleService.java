@@ -1,12 +1,10 @@
 package cn.moonshotacademy.memoirs.service;
 
-import java.util.List;
-
 import cn.moonshotacademy.memoirs.dto.ArticleDto;
 import cn.moonshotacademy.memoirs.dto.ArticleListDto;
 import cn.moonshotacademy.memoirs.dto.WaterDto;
 import cn.moonshotacademy.memoirs.entity.ArticleEntity;
-
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +15,7 @@ public interface ArticleService {
     ArticleDto getArticleById(int id);
 
     List<ArticleListDto> getAllArticles();
+
     List<ArticleEntity> getAllArticleEntities();
 
     Page<WaterDto> getArticles(int page, int size);

@@ -4,33 +4,27 @@ import cn.moonshotacademy.memoirs.dto.ArticleDto;
 import cn.moonshotacademy.memoirs.dto.ResponseDto;
 import cn.moonshotacademy.memoirs.dto.TagDto;
 import cn.moonshotacademy.memoirs.dto.TellerDto;
+import cn.moonshotacademy.memoirs.entity.ArticleEntity;
 import cn.moonshotacademy.memoirs.entity.RelationEntity;
+import cn.moonshotacademy.memoirs.entity.TagEntity;
 import cn.moonshotacademy.memoirs.entity.TellerEntity;
 import cn.moonshotacademy.memoirs.exception.BusinessException;
 import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
-import cn.moonshotacademy.memoirs.repository.RelationRepository;
-import cn.moonshotacademy.memoirs.entity.ArticleEntity;
-import cn.moonshotacademy.memoirs.entity.TagEntity;
 import cn.moonshotacademy.memoirs.repository.ArticleRepository;
 import cn.moonshotacademy.memoirs.repository.ImageRepository;
+import cn.moonshotacademy.memoirs.repository.RelationRepository;
 import cn.moonshotacademy.memoirs.repository.TellerRepository;
 import cn.moonshotacademy.memoirs.service.TellerService;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-
-
 
 @Service
 @RequiredArgsConstructor
@@ -190,8 +184,10 @@ public class TellerServiceImpl implements TellerService {
 
     @Override
     public TellerEntity findTeller(String name) {
-        TellerEntity teller = tellerRepository.findByNameOld(name)
-                .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND));
+        TellerEntity teller =
+                tellerRepository
+                        .findByNameOld(name)
+                        .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND));
         if (teller == null) {
             throw new BusinessException(ExceptionEnum.USER_NOT_FOUND);
         }

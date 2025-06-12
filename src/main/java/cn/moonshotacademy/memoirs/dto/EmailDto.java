@@ -1,4 +1,5 @@
 package cn.moonshotacademy.memoirs.dto;
+
 import io.micrometer.common.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +12,5 @@ public class EmailDto {
 
     private String email;
 
-    @Nullable
-    private String code;
+    @Nullable private String code;
 }
