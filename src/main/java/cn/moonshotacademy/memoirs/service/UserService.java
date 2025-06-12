@@ -5,8 +5,10 @@ import cn.moonshotacademy.memoirs.dto.LoginDto;
 import cn.moonshotacademy.memoirs.dto.ResponseDto;
 import cn.moonshotacademy.memoirs.dto.SignUpDto;
 import cn.moonshotacademy.memoirs.dto.UserDto;
+import cn.moonshotacademy.memoirs.entity.UserEntity;
 import io.jsonwebtoken.JwtException;
 import java.io.IOException;
+import java.util.List;
 
 public interface UserService {
     ResponseDto<Void> signup(SignUpDto signUpDto) throws JwtException;
@@ -22,4 +24,6 @@ public interface UserService {
     public void changeUserPassword(int id, String oldPassword, String newPassword);
 
     public void changeUserAvatar(int id, AvatarDto requestData) throws IOException;
+    
+    List<UserEntity> getAllUsers();
 }

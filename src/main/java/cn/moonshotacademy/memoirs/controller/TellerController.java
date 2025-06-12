@@ -51,9 +51,9 @@ public class TellerController {
     }
 
     @PostMapping("/list")
-    public ResponseDto<TellerEntity[]> getList() {
-        TellerEntity[] teller = tellerService.getList();
-        return ResponseDto.success(teller);
+    public ResponseDto<List<TellerEntity>> getList() {
+        List<TellerEntity> tellers = tellerService.getList();
+        return ResponseDto.success(tellers);
     }
 
     @PostMapping("/find")

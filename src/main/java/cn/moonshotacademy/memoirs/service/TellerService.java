@@ -20,7 +20,7 @@ public interface TellerService {
 
     List<ArticleDto> getArticlesByTellerId(Integer tellerId);
 
-    public TellerEntity[] getList();
+    List<TellerEntity> getList();
 
-    public TellerEntity findTeller(String name);
+    TellerEntity findTeller(String name);
 }

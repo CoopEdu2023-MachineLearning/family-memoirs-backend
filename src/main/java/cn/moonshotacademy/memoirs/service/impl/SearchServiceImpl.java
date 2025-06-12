@@ -1,6 +1,8 @@
 package cn.moonshotacademy.memoirs.service.impl;
 
 import cn.moonshotacademy.memoirs.entity.ArticleEntity;
+import cn.moonshotacademy.memoirs.entity.TellerEntity;
+import cn.moonshotacademy.memoirs.entity.UserEntity;
 import cn.moonshotacademy.memoirs.exception.BusinessException;
 import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
 import cn.moonshotacademy.memoirs.service.SearchService;
@@ -37,6 +39,8 @@ public class SearchServiceImpl implements SearchService {
     private final Client client;
     private final Client importClient;
     private final CollectionSchema storySchema;
+    private final CollectionSchema tellerSchema;
+    private final CollectionSchema userSchema;
 
     public SearchServiceImpl() {
         List<Node> nodes = new ArrayList<>();
@@ -45,31 +49,35 @@ public class SearchServiceImpl implements SearchService {
                         "http", // For Typesense Cloud use https
                         "localhost", // For Typesense Cloud use xxx.a1.typesense.net
                         "8108" // For Typesense Cloud use 443
-                        ));
+                ));
 
         configuration = new Configuration(nodes, Duration.ofSeconds(2), "xyz");
         importConfiguration = new Configuration(nodes, Duration.ofMinutes(5), "xyz");
         client = new Client(this.configuration);
         importClient = new Client(this.importConfiguration);
-        storySchema =
-                new CollectionSchema()
-                        .name("stories")
-                        .addFieldsItem(new Field().name("story").type(FieldTypes.STRING).locale("zh"))
-                        .addFieldsItem(
-                                new Field().name("tags").type(FieldTypes.STRING_ARRAY).locale("zh").facet(true))
-                        .addFieldsItem(new Field().name("articleId").type(FieldTypes.INT32).index(false))
-                        .addFieldsItem(
-                                new Field()
-                                        .name("embedding")
-                                        .type(FieldTypes.FLOAT_ARRAY)
-                                        .embed(
-                                                new FieldEmbed()
-                                                        .from(List.of("story"))
-                                                        .modelConfig(
-                                                                new FieldEmbedModelConfig()
-                                                                        .modelName("ts/multilingual-e5-small")
-                                                                        .indexingPrefix("passage: ")
-                                                                        .queryPrefix("query: "))));
+        storySchema = new CollectionSchema()
+                .name("stories")
+                .addFieldsItem(new Field().name("story").type(FieldTypes.STRING).locale("zh"))
+                .addFieldsItem(
+                        new Field().name("tags").type(FieldTypes.STRING_ARRAY).locale("zh").facet(true))
+                .addFieldsItem(new Field().name("articleId").type(FieldTypes.INT32).index(false))
+                .addFieldsItem(new Field()
+                        .name("embedding")
+                        .type(FieldTypes.FLOAT_ARRAY)
+                        .embed(new FieldEmbed()
+                                .from(List.of("story"))
+                                .modelConfig(new FieldEmbedModelConfig()
+                                        .modelName("ts/multilingual-e5-small")
+                                        .indexingPrefix("passage: ")
+                                        .queryPrefix("query: "))));
+        tellerSchema = new CollectionSchema()
+                .name("narrator")
+                .addFieldsItem(new Field().name("name").type(FieldTypes.STRING).infix(true))
+                .addFieldsItem(new Field().name("narratorId").type(FieldTypes.INT32).index(false));
+        userSchema = new CollectionSchema()
+                .name("user")
+                .addFieldsItem(new Field().name("name").type(FieldTypes.STRING).infix(true))
+                .addFieldsItem(new Field().name("userId").type(FieldTypes.INT32).index(false));
     }
 
     @Override
@@ -77,12 +85,11 @@ public class SearchServiceImpl implements SearchService {
             String q, Optional<Integer> snippetLength, Optional<Boolean> preciseSearch) {
         boolean isPrecise = preciseSearch.isPresent() && preciseSearch.get();
         String queryBy = isPrecise ? "story,tags" : "story,tags,embedding";
-        SearchParameters searchParameters =
-                new SearchParameters()
-                        .q(q)
-                        .queryBy(queryBy)
-                        .sortBy("_text_match:desc")
-                        .stopwords("stopword_set1");
+        SearchParameters searchParameters = new SearchParameters()
+                .q(q)
+                .queryBy(queryBy)
+                .sortBy("_text_match:desc")
+                .stopwords("stopword_set1");
         if (snippetLength.isPresent()) {
             searchParameters.setHighlightAffixNumTokens(snippetLength.get());
         } else {
@@ -98,8 +105,8 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public SearchResult searchTeller(String q) {
-        SearchParameters searchParameters =
-                new SearchParameters().q(q).queryBy("name").sortBy("_text_match:desc").infix("always");
+        SearchParameters searchParameters = new SearchParameters().q(q).queryBy("name").sortBy("_text_match:desc")
+                .infix("always");
         try {
             return client.collections("narrator").documents().search(searchParameters);
         } catch (Exception e) {
@@ -110,8 +117,8 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public SearchResult searchUser(String q) {
-        SearchParameters searchParameters =
-                new SearchParameters().q(q).queryBy("name").sortBy("_text_match:desc").infix("always");
+        SearchParameters searchParameters = new SearchParameters().q(q).queryBy("name").sortBy("_text_match:desc")
+                .infix("always");
         try {
             return client.collections("user").documents().search(searchParameters);
         } catch (Exception e) {
@@ -122,24 +129,7 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public void syncStories(List<ArticleEntity> stories) throws Exception {
-        String newName;
-        try {
-            CollectionAlias currentAlias = client.aliases("stories").retrieve();
-            newName = currentAlias.getCollectionName().equals("stories_1") ? "stories_2" : "stories_1";
-        } catch (ObjectNotFound e) {
-            newName = "stories_1";
-        }
-
-        CollectionResponse[] collectionList = client.collections().retrieve();
-        for (CollectionResponse collectionResponse : collectionList) {
-            if (collectionResponse.getName().equals(newName)) {
-                client.collections(newName).delete();
-                break;
-            }
-        }
-        client.collections().create(storySchema.name(newName));
-
-        ArrayList<HashMap<String, Object>> documentList = new ArrayList<>();
+        List<HashMap<String, Object>> documentList = new ArrayList<>();
 
         for (ArticleEntity articleEntity : stories) {
             HashMap<String, Object> document = new HashMap<>();
@@ -150,14 +140,65 @@ public class SearchServiceImpl implements SearchService {
             documentList.add(document);
         }
 
-        ImportDocumentsParameters importDocumentsParameters =
-                new ImportDocumentsParameters().action(IndexAction.CREATE);
+        sync(documentList, "stories", storySchema);
+    }
 
-        importClient.collections(newName).documents().import_(documentList, importDocumentsParameters);
+    @Override
+    public void syncTellers(List<TellerEntity> tellers) throws Exception {
+        List<HashMap<String, Object>> documentList = new ArrayList<>();
 
-        CollectionAliasSchema collectionAliasSchema =
-                new CollectionAliasSchema().collectionName(newName);
+        for (TellerEntity tellerEntity : tellers) {
+            HashMap<String, Object> document = new HashMap<>();
+            document.put("name", tellerEntity.getNameOld());
+            document.put("narratorId", tellerEntity.getId());
 
-        client.aliases().upsert("stories", collectionAliasSchema);
+            documentList.add(document);
+        }
+
+        sync(documentList, "narrator", tellerSchema);
+    }
+
+    @Override
+    public void syncUsers(List<UserEntity> userIds) throws Exception {
+        List<HashMap<String, Object>> documentList = new ArrayList<>();
+        
+        for (UserEntity userEntity : userIds) {
+            HashMap<String, Object> document = new HashMap<>();
+            document.put("name", userEntity.getUsername());
+            document.put("userId", userEntity.getId());
+
+            documentList.add(document);
+        }
+
+        sync(documentList, "user", userSchema);
+    }
+
+    void sync(List<HashMap<String, Object>> documents, String collectionName, CollectionSchema collectionSchema)
+            throws Exception {
+        String newName;
+        try {
+            CollectionAlias currentAlias = client.aliases(collectionName).retrieve();
+            newName = currentAlias.getCollectionName().equals(collectionName + "_1") ? collectionName + "_2"
+                    : collectionName + "_1";
+        } catch (ObjectNotFound e) {
+            newName = collectionName + "_1";
+        }
+
+        CollectionResponse[] collectionList = client.collections().retrieve();
+        for (CollectionResponse collectionResponse : collectionList) {
+            if (collectionResponse.getName().equals(newName)) {
+                client.collections(newName).delete();
+                break;
+            }
+        }
+        client.collections().create(collectionSchema.name(newName));
+
+        ImportDocumentsParameters importDocumentsParameters = new ImportDocumentsParameters()
+                .action(IndexAction.CREATE);
+
+        importClient.collections(newName).documents().import_(documents, importDocumentsParameters);
+
+        CollectionAliasSchema collectionAliasSchema = new CollectionAliasSchema().collectionName(newName);
+        client.aliases().upsert(collectionName, collectionAliasSchema);
     }
 }
