@@ -2,10 +2,13 @@ package cn.moonshotacademy.memoirs.service.impl;
 
 import cn.moonshotacademy.memoirs.config.FileProperties;
 import cn.moonshotacademy.memoirs.dto.AvatarDto;
+import cn.moonshotacademy.memoirs.dto.TellerDto;
 import cn.moonshotacademy.memoirs.dto.UserDto;
+import cn.moonshotacademy.memoirs.entity.TellerEntity;
 import cn.moonshotacademy.memoirs.entity.UserEntity;
 import cn.moonshotacademy.memoirs.exception.BusinessException;
 import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
+import cn.moonshotacademy.memoirs.repository.TellerRepository;
 import cn.moonshotacademy.memoirs.repository.UserRepository;
 import cn.moonshotacademy.memoirs.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,24 +25,42 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final FileProperties fileProperties;
+    private final TellerRepository tellerRepository;
     private static final List<String> ALLOWED_FILE_TYPES = Arrays.asList("jpg", "jpeg", "png");
 
     @Override
     public UserDto getUserInfo(int id){
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(ExceptionEnum.USER_NOT_FOUND));
+        List<TellerEntity> teller = tellerRepository.findAllByUserId(String.valueOf(user.getId()));
+
+        List<TellerDto> tellerDto = teller.stream()
+                .map(tellers -> TellerDto.builder()
+                        .id(tellers.getId())
+                        .nameOld(tellers.getNameOld())
+                        .introOld(tellers.getIntroOld())
+                        .avatarUrlOld(tellers.getAvatarUrlOld())
+                        .gender(tellers.getGender())
+                        .birthplace(tellers.getBirthplace())
+                        .birthdate(tellers.getBirthdate())
+                        .build())
+                .toList();
+
         return(
                 UserDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
                         .avatarUrl(user.getAvatarUrl())
+                        .teller(tellerDto)
                         .build());
     }
 
