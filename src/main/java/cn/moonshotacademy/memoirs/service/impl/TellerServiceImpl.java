@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import cn.moonshotacademy.memoirs.service.JwtService;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +35,7 @@ public class TellerServiceImpl implements TellerService {
     private final ImageRepository imageRepository;
     private final TellerRepository tellerRepository;
     private final RelationRepository relationRepository;
+    private final JwtService jwtService;
 
     @Override
     public TellerEntity getTellerById(Integer tellerId) {
@@ -111,9 +113,10 @@ public class TellerServiceImpl implements TellerService {
     }
 
     @Override
-    public ResponseDto<TellerDto> createTeller(TellerDto tellerDto) {
+    public ResponseDto<TellerDto> createTeller(TellerDto tellerDto, String token) {
+        
         try {
-            Integer userId = tellerDto.getUserId();
+            Integer userId = Integer.parseInt(jwtService.decodeJwt(token));
             if (userId == null) {
                 throw new BusinessException(ExceptionEnum.INVALID_USER_ID);
             }
@@ -148,7 +151,13 @@ public class TellerServiceImpl implements TellerService {
             }
 
             TellerEntity teller = new TellerEntity();
-            teller.setIdentity(tellerDto.getIdentity());
+            teller.setUserId(userId);
+            teller.setIdentity(identity);
+            if (relationId != null) {
+                RelationEntity relation = relationRepository.findById(relationId)
+                    .orElseThrow(() -> new BusinessException(ExceptionEnum.INVALID_RELATION));
+                teller.setRelation(relation);
+            }
             teller.setNameNew(tellerDto.getNameNew());
             teller.setGender(tellerDto.getGender());
             teller.setBirthplace(tellerDto.getBirthplace());
@@ -158,7 +167,8 @@ public class TellerServiceImpl implements TellerService {
             teller.setNameState("pending");
             teller.setIntroState("pending");
             teller.setAvatarState("pending");
-            TellerEntity savedTeller = tellerRepository.save(teller);
+
+            tellerRepository.save(teller);
             return ResponseDto.success(tellerDto);
         } catch (Exception e) {
             throw new BusinessException(ExceptionEnum.TELLER_CREATE_FAILED);
@@ -166,7 +176,8 @@ public class TellerServiceImpl implements TellerService {
     }
 
     @Override
-    public List<TellerEntity> getTellersByUserId(Integer userId) {
+    public List<TellerEntity> getTellersByUserId(String token) {
+        Integer userId = Integer.parseInt(jwtService.decodeJwt(token));
         if (userId == null) {
             throw new BusinessException(ExceptionEnum.INVALID_USER_ID);
         }

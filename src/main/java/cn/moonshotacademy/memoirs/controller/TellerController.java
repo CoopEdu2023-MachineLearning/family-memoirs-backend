@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +24,7 @@ public class TellerController {
 
     @Autowired private TellerService tellerService;
 
-    @GetMapping("/{tellerId}")
+    @GetMapping("/get")
     public ResponseDto<TellerEntity> getTellerById(@PathVariable Integer tellerId) {
         return ResponseDto.success(tellerService.getTellerById(tellerId));
     }
@@ -40,13 +41,15 @@ public class TellerController {
     }
 
     @PostMapping
-    public ResponseDto<TellerDto> createTeller(@RequestBody TellerDto tellerDto) {
-        return tellerService.createTeller(tellerDto);
+    public ResponseDto<TellerDto> createTeller(@RequestBody TellerDto tellerDto, @RequestHeader("Authorization") String token) {
+        String jwt = token.replace("Bearer ", "");
+
+        return tellerService.createTeller(tellerDto, jwt);
     }
 
     @GetMapping
-    public ResponseDto<List<TellerEntity>> getTellersByUserId(@RequestParam Integer userId) {
-        List<TellerEntity> tellers = tellerService.getTellersByUserId(userId);
+    public ResponseDto<List<TellerEntity>> getTellersByUserId(@RequestHeader("Authorization") String token) {
+        List<TellerEntity> tellers = tellerService.getTellersByUserId(token);
         return ResponseDto.success(tellers);
     }
 

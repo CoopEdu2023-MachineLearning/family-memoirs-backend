@@ -24,6 +24,5 @@ public class TellerDto {
     private String nameNew;
     private String introNew;
     private String avatarNew;
-    private Integer userId;
     private String relationName;
 }

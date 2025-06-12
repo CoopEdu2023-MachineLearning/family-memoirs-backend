@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface TellerService {
-    ResponseDto<TellerDto> createTeller(TellerDto tellerDto);
+    ResponseDto<TellerDto> createTeller(TellerDto tellerDto, String token);
 
-    List<TellerEntity> getTellersByUserId(Integer userId);
+    List<TellerEntity> getTellersByUserId(String token);
 
     TellerEntity getTellerById(Integer tellerId);
 
