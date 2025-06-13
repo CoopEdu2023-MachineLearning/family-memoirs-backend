@@ -51,7 +51,9 @@ public enum ExceptionEnum {
     TYPE_NOTALLOW(9005, "This file type is not allowed"),
     FILE_NOT_FOUND(9006, "File not found"),
     EMPTY_FILE(9007, "Empty file"),
-    SEARCH_ERROR(9008, "Error when searching documents");
+
+    SEARCH_ERROR(10001, "Error when searching documents"),
+    SEARCH_SYNC_ERROR(10002, "Error when synchronizing search data");
 
     private final int code;
     private final String message;

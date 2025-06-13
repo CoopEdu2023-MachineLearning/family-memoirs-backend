@@ -21,4 +21,6 @@ public interface SearchService {
     void syncTellers(List<TellerEntity> tellers) throws Exception;
 
     void syncUsers(List<UserEntity> userIds) throws Exception;
+
+    void syncAll() throws Exception;
 }

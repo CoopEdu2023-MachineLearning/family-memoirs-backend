@@ -5,13 +5,15 @@ import cn.moonshotacademy.memoirs.dto.SearchResultDto;
 import cn.moonshotacademy.memoirs.exception.BusinessException;
 import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
 import cn.moonshotacademy.memoirs.service.SearchService;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.typesense.model.SearchResult;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/search")
@@ -30,5 +32,15 @@ public class SearchController {
         SearchResult tellersResult = searchService.searchTeller(q);
         SearchResult userResult = searchService.searchUser(q);
         return ResponseDto.success(new SearchResultDto(storiesResult, tellersResult, userResult));
+    }
+
+    @PostMapping("/sync")
+    public ResponseDto<Void> synchronizeData() {
+        try {
+            searchService.syncAll();
+            return ResponseDto.success(null);
+        } catch (Exception e) {
+            throw new BusinessException(ExceptionEnum.SEARCH_SYNC_ERROR);
+        }
     }
 }

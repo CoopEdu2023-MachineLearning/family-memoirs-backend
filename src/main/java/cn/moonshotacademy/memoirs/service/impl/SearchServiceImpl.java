@@ -5,13 +5,17 @@ import cn.moonshotacademy.memoirs.entity.TellerEntity;
 import cn.moonshotacademy.memoirs.entity.UserEntity;
 import cn.moonshotacademy.memoirs.exception.BusinessException;
 import cn.moonshotacademy.memoirs.exception.ExceptionEnum;
+import cn.moonshotacademy.memoirs.service.ArticleService;
 import cn.moonshotacademy.memoirs.service.SearchService;
+import cn.moonshotacademy.memoirs.service.TellerService;
+import cn.moonshotacademy.memoirs.service.UserService;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.typesense.api.Client;
 import org.typesense.api.Configuration;
@@ -41,6 +45,10 @@ public class SearchServiceImpl implements SearchService {
     private final CollectionSchema storySchema;
     private final CollectionSchema tellerSchema;
     private final CollectionSchema userSchema;
+
+    @Autowired private ArticleService articleService;
+    @Autowired private TellerService tellerService;
+    @Autowired private UserService userService;
 
     public SearchServiceImpl() {
         List<Node> nodes = new ArrayList<>();
@@ -171,6 +179,16 @@ public class SearchServiceImpl implements SearchService {
         }
 
         sync(documentList, "user", userSchema);
+    }
+
+    @Override
+    public void syncAll() throws Exception {
+        List<ArticleEntity> storiesToSync = articleService.getAllArticleEntities();
+        syncStories(storiesToSync);
+        List<TellerEntity> tellersToSync = tellerService.getList();
+        syncTellers(tellersToSync);
+        List<UserEntity> usersToSync = userService.getAllUsers();
+        syncUsers(usersToSync);
     }
 
     void sync(List<HashMap<String, Object>> documents, String collectionName, CollectionSchema collectionSchema)
