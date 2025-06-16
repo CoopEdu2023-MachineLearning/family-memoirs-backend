@@ -71,6 +71,9 @@ public class TellerEntity {
     @Column(name = "avatar_state")
     private String avatarState;
 
+    @Column(name = "avatar_new")
+    private String avatarNew;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "teller_id")
     private Set<TellerEntity> teller = new HashSet<>();

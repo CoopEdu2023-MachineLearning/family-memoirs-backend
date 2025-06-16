@@ -154,7 +154,8 @@ public class TellerServiceImpl implements TellerService {
             teller.setBirthplace(tellerDto.getBirthplace());
             teller.setBirthdate(tellerDto.getBirthdate());
             teller.setIntroNew(tellerDto.getIntroNew());
-            teller.setAvatarUrlNew(tellerDto.getAvatarNew());
+            teller.setAvatarUrlNew(tellerDto.getAvatarUrlNew());
+            teller.setUserId(userId);
             teller.setNameState("pending");
             teller.setIntroState("pending");
             teller.setAvatarState("pending");
